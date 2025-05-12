@@ -4,23 +4,23 @@ from config import mysql
 from flask import jsonify, request
 from auth import auth
 
-@app.route('/create/adicionar_cliente', methods=['POST'])
+@app.route('/create/adicionar_produto', methods=['POST'])
 @auth.login_required
-def adicionar_cliente():
+def adicionar_produto():
     try:        
         _json  =  request.json
         _nome  =  _json['nome']
-        _idade =  _json['idade']
-        _cpf   =  _json['cpf']
-        _email =  _json['email']
-        if _nome and _idade and _cpf and _email and request.method == 'POST':
+        _velocidade =  _json['velocidade']
+        _preco   =  _json['preco']
+        _disponibilidade =  _json['disponibilidade']
+        if _nome and _velocidade and _preco and _disponibilidade and request.method == 'POST':
             conn = mysql.connect()
             cursor = conn.cursor(pymysql.cursors.DictCursor)
-            sqlQuery = "CALL adicionar_cliente (%s, %s, %s, %s);"
-            bindData = (_nome, _idade, _cpf, _email)
+            sqlQuery = "CALL adicionar_produto (%s, %s, %s, %s);"
+            bindData = (_nome, _velocidade, _preco, _disponibilidade)
             cursor.execute(sqlQuery, bindData)
             conn.commit()
-            response = jsonify('Employee added successfully!')
+            response = jsonify('Produto adicionado!')
             response.status_code = 200
             return response
         else:
@@ -31,16 +31,16 @@ def adicionar_cliente():
         cursor.close()
         conn.close()
 
-@app.route('/read/ler_cliente', methods=['GET'])
+@app.route('/read/ler_produto', methods=['GET'])
 @auth.login_required
-def ler_cliente():
+def ler_produto():
     try:
         _json = request.json
         _id   = _json['id']
         if _id and request.method == 'GET':
             conn = mysql.connect()
             cursor = conn.cursor(pymysql.cursors.DictCursor)
-            cursor.execute("CALL ler_cliente (%s)", (_id,))
+            cursor.execute("CALL ler_produto (%s)", (_id,))
             empRow = cursor.fetchone()
             response = jsonify(empRow)
             response.status_code = 200
@@ -53,14 +53,14 @@ def ler_cliente():
         cursor.close()
         conn.close()
 
-@app.route('/read/ler_clientes', methods=['GET'])
+@app.route('/read/ler_produtos', methods=['GET'])
 @auth.login_required
-def ler_clientes():
+def ler_produtos():
     try:
         if request.method == 'GET':
             conn = mysql.connect()
             cursor = conn.cursor(pymysql.cursors.DictCursor)
-            cursor.execute("CALL ler_clientes ()")
+            cursor.execute("CALL ler_produtos ()")
             empRows = cursor.fetchall()
             response = jsonify(empRows)
             response.status_code = 200
@@ -73,24 +73,24 @@ def ler_clientes():
         cursor.close()
         conn.close()
 
-@app.route('/update/atualiza_cliente', methods=['PUT'])
+@app.route('/update/atualizar_produto', methods=['PUT'])
 @auth.login_required
-def atualizar_cliente():
+def atualizar_produto():
     try:
         _json  = request.json
         _id    = _json['id']
         _nome  = _json['nome']
-        _idade = _json['idade']
-        _cpf   = _json['cpf']
-        _email = _json['email']
-        if _id and _nome and _idade and _cpf and _email and request.method == 'PUT':
+        _velocidade = _json['velocidade']
+        _preco   = _json['preco']
+        _disponibilidade = _json['disponibilidade']
+        if _id and _nome and _velocidade and _preco and _disponibilidade and request.method == 'PUT':
             conn = mysql.connect()
             cursor = conn.cursor()
-            sqlQuery = "CALL atualizar_cliente (%s, %s, %s, %s, %s)"
-            bindData = (_id, _nome, _idade, _cpf, _email)
+            sqlQuery = "CALL atualizar_produto (%s, %s, %s, %s, %s)"
+            bindData = (_id, _nome, _velocidade, _preco, _disponibilidade)
             cursor.execute(sqlQuery, bindData)
             conn.commit()
-            response = jsonify('Cliente atualizado!')
+            response = jsonify('Produto atualizado!')
             response.status_code = 200
             return response
         else:
@@ -101,17 +101,17 @@ def atualizar_cliente():
         cursor.close()
         conn.close()
 
-@app.route('/delete/apagar_cliente', methods=['DELETE'])
+@app.route('/delete/apagar_produto', methods=['DELETE'])
 @auth.login_required
-def apagar_cliente():
+def apagar_produto():
     try:
         _json = request.json
         _id   = _json['id']
         conn  = mysql.connect()
         cursor = conn.cursor()
-        cursor.execute("CALL apagar_cliente (%s)", (_id,))
+        cursor.execute("CALL apagar_produto (%s)", (_id,))
         conn.commit()
-        response = jsonify('Cliente apagado!')
+        response = jsonify('produto apagado!')
         response.status_code = 200
         return response
     except Exception as e:

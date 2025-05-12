@@ -1,6 +1,5 @@
 from app import app
-import clientes
-import enderecos
+import catalogo
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
