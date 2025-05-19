@@ -111,7 +111,7 @@ def apagar_produto():
         cursor = conn.cursor()
         cursor.execute("CALL apagar_produto (%s)", (_id,))
         conn.commit()
-        response = jsonify('produto apagado!')
+        response = jsonify('Produto apagado!')
         response.status_code = 200
         return response
     except Exception as e:
