@@ -1,53 +1,65 @@
-Feature: API de Catálogo
-  Validar o relacionamento Cliente ↔ Produto
+Feature: Gestão de catálogo (Visão de Mercado)
+  Como gestor de portfólio
+  Quero relacionar clientes e produtos
+  Para criar ofertas e pacotes integrados
 
   Background:
-    Given a API de Catálogo está no ar em "http://127.0.0.1:5000"
+    Dado que o sistema de catálogo está disponível para operação
 
-  Scenario: Associar um cliente a um produto
-    Given que existe um cliente com id 1
-    And que existe um produto com id 1
-    When eu envio um POST para "/create/adicionar_clientes_produtos" com JSON
-      """
-      {
-        "id_cliente": "1",
-        "id_produto": "1"
-      }
-      """
-    Then a resposta deve ter status 200
-    And o corpo deve conter "Relacao adicionada!"
+  # Cenários Positivos
+  Scenario: Criar nova relação cliente-produto
+    Given existe cliente com id 1
+    And existe produto com id 1
+    When é realizada a relação entre cliente 1 e produto 1
+    Then a relação é registrada com sucesso
 
-  Scenario: Listar produtos de um cliente
-    Given que existe um cliente com id 1
-    When eu envio um GET para "/read/ler_produtos_do_cliente" com JSON
-      """
-      {
-        "id": "1"
-      }
-      """
-    Then a resposta deve ter status 200
-    And a resposta JSON deve ser uma lista
+  Scenario: Consultar produtos de um cliente
+    Given existe cliente com id 1 e ele possui produtos relacionados
+    When é solicitada a lista de produtos do cliente 1
+    Then é retornada uma lista de produtos contendo id_produto e detalhes
 
-  Scenario: Listar clientes de um produto
-    Given que existe um produto com id 1
-    When eu envio um GET para "/read/ler_clientes_do_produto" com JSON
-      """
-      {
-        "id": "1"
-      }
-      """
-    Then a resposta deve ter status 200
-    And a resposta JSON deve ser uma lista
+  Scenario: Consultar clientes de um produto
+    Given existe produto com id 1 e ele possui clientes relacionados
+    When é solicitada a lista de clientes do produto 1
+    Then é retornada uma lista de clientes contendo id_cliente e detalhes
 
-  Scenario: Desassociar um cliente de um produto
-    Given que existe um cliente com id 1
-    And que existe um produto com id 1
-    When eu envio um DELETE para "/delete/apagar_clientes_produtos" com JSON
-      """
-      {
-        "id_cliente": "1",
-        "id_produto": "1"
-      }
-      """
-    Then a resposta deve ter status 200
-    And o corpo deve conter "Relacao apagada!"
+  Scenario: Atualizar relação existente
+    Given existe relação com id 1 ligando cliente 1 ao produto 1
+    And existe produto com id 2
+    When a relação 1 é atualizada para cliente 1 e produto 2
+    Then a atualização é confirmada com sucesso
+
+  Scenario: Remover relação existente
+    Given existe relação com id 1
+    When a relação 1 é removida
+    Then a relação não aparece mais nas consultas
+
+  # Cenários Negativos
+  Scenario: Tentar criar relação duplicada
+    Given já existe relação entre cliente 1 e produto 1
+    When é realizada novamente a relação entre cliente 1 e produto 1
+    Then o sistema rejeita o cadastro
+
+  Scenario: Consultar produtos de cliente inexistente
+    Given não existe cliente com id 9999
+    When é solicitada a lista de produtos do cliente 9999
+    Then o sistema informa que não encontrou o registro
+
+  Scenario: Consultar clientes de produto inexistente
+    Given não existe produto com id 9999
+    When é solicitada a lista de clientes do produto 9999
+    Then o sistema informa que não encontrou o registro
+
+  Scenario: Atualizar relação inexistente
+    Given não existe relação com id 9999
+    When é solicitada atualização da relação 9999
+    Then o sistema informa que não encontrou o registro
+
+  Scenario: Remover relação inexistente
+    Given não existe relação com id 9999
+    When é solicitada remoção da relação 9999
+    Then o sistema informa que não encontrou o registro
+
+  Scenario: Tentar cadastrar sem informar campos obrigatórios
+    When é realizada a relação sem informar id_cliente ou id_produto
+    Then o sistema rejeita por dados incompletos

@@ -20,7 +20,7 @@ def adicionar_cliente():
             bindData = (_nome, _idade, _cpf, _email)
             cursor.execute(sqlQuery, bindData)
             conn.commit()
-            response = jsonify('Employee added successfully!')
+            response = jsonify('Cliente adicionado!')
             response.status_code = 200
             return response
         else:

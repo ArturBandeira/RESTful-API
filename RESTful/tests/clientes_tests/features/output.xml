@@ -1,0 +1,748 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.3 (Python 3.8.0 on win32)" generated="2025-06-09T18:58:03.578487" rpa="false" schemaversion="5">
+<suite id="s1" name="Features" source="C:\Users\Artur\Downloads\Des\RESTful\tests\clientes_tests\features">
+<suite id="s1-s1" name="Cliente Api Tests" source="C:\Users\Artur\Downloads\Des\RESTful\tests\clientes_tests\features\cliente_api_tests.robot">
+<kw name="Create Session" owner="RequestsLibrary" type="SETUP">
+<msg time="2025-06-09T18:58:03.687602" level="INFO">Creating Session using : alias=cliente_api, url=http://192.168.68.105:5000, headers={},                     cookies={}, auth=&lt;requests.auth.HTTPBasicAuth object at 0x00000223BBCFC130&gt;, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<arg>cliente_api</arg>
+<arg>${API_URL}</arg>
+<arg>auth=${ADMIN_CREDENTIALS}</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<status status="PASS" start="2025-06-09T18:58:03.687602" elapsed="0.000000"/>
+</kw>
+<test id="s1-s1-t1" name="Adicionar Cliente Válido" line="14">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2025-06-09T18:58:03.687602" level="INFO">${payload} = {'nome': 'Ana Silva', 'idade': '30', 'cpf': '12345678901', 'email': 'ana@usp.br'}</msg>
+<var>${payload}</var>
+<arg>nome=Ana Silva</arg>
+<arg>idade=30</arg>
+<arg>cpf=12345678901</arg>
+<arg>email=ana@usp.br</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2025-06-09T18:58:03.687602" elapsed="0.000000"/>
+</kw>
+<kw name="POST On Session" owner="RequestsLibrary">
+<msg time="2025-06-09T18:58:03.851838" level="INFO">POST Request : url=http://192.168.68.105:5000/create/adicionar_cliente 
+ path_url=/create/adicionar_cliente 
+ headers={'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '81', 'Content-Type': 'application/json', 'Authorization': 'Basic YWRtaW46c2VuaGFfdGVzdGU='} 
+ body=b'{"nome": "Ana Silva", "idade": "30", "cpf": "12345678901", "email": "ana@usp.br"}' 
+ </msg>
+<msg time="2025-06-09T18:58:03.851838" level="INFO">POST Response : url=http://192.168.68.105:5000/create/adicionar_cliente 
+ status=200, reason=OK 
+ headers={'Server': 'Werkzeug/3.0.6 Python/3.8.0', 'Date': 'Mon, 09 Jun 2025 21:58:03 GMT', 'Content-Type': 'application/json', 'Content-Length': '22', 'Access-Control-Allow-Origin': '*', 'Connection': 'close'} 
+ body="Cliente adicionado!"
+ 
+ </msg>
+<msg time="2025-06-09T18:58:03.851838" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>cliente_api</arg>
+<arg>${ENDPOINT_ADD}</arg>
+<arg>json=${payload}</arg>
+<doc>Sends a POST request on a previously created HTTP Session.</doc>
+<status status="PASS" start="2025-06-09T18:58:03.687602" elapsed="0.164236"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2025-06-09T18:58:03.851838" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${response.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2025-06-09T18:58:03.851838" elapsed="0.000000"/>
+</kw>
+<kw name="Should Contain" owner="BuiltIn">
+<arg>${response.content}</arg>
+<arg>Cliente adicionado!</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" start="2025-06-09T18:58:03.851838" elapsed="0.000000"/>
+</kw>
+<tag>positive</tag>
+<status status="PASS" start="2025-06-09T18:58:03.687602" elapsed="0.164236"/>
+</test>
+<test id="s1-s1-t2" name="Listar Clientes Ativos" line="21">
+<kw name="GET On Session" owner="RequestsLibrary">
+<msg time="2025-06-09T18:58:04.044382" level="INFO">GET Request : url=http://192.168.68.105:5000/read/ler_clientes 
+ path_url=/read/ler_clientes 
+ headers={'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Basic YWRtaW46c2VuaGFfdGVzdGU='} 
+ body=None 
+ </msg>
+<msg time="2025-06-09T18:58:04.044382" level="INFO">GET Response : url=http://192.168.68.105:5000/read/ler_clientes 
+ status=200, reason=OK 
+ headers={'Server': 'Werkzeug/3.0.6 Python/3.8.0', 'Date': 'Mon, 09 Jun 2025 21:58:04 GMT', 'Content-Type': 'application/json', 'Content-Length': '621', 'Access-Control-Allow-Origin': '*', 'Connection': 'close'} 
+ body=[
+  {
+    "cpf": "12345678901",
+    "email": "ana.santos@usp.br",
+    "id": 2,
+    "idade": 31,
+    "nome": "Ana dos Santos"
+  },
+  {
+    "cpf": "12345678901",
+    "email": "nome_teste@usp.br",
+    "id": 3,
+    "idade": 31,
+    "nome": "nome teste2"
+  },
+  {
+    "cpf": "12345678901",
+    "email": "nome_teste@usp.br",
+    "id": 4,
+    "idade": 31,
+    "nome": "nome teste"
+  },
+  {
+    "cpf": "12345678901",
+    "email": "nome_teste@usp.br",
+    "id": 5,
+    "idade": 31,
+    "nome": "nome teste1"
+  },
+  {
+    "cpf": "12345678901",
+    "email": "ana@usp.br",
+    "id": 6,
+    "idade": 30,
+    "nome": "Ana Silva"
+  }
+]
+ 
+ </msg>
+<msg time="2025-06-09T18:58:04.044382" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>cliente_api</arg>
+<arg>${ENDPOINT_LIST}</arg>
+<doc>Sends a GET request on a previously created HTTP Session.</doc>
+<status status="PASS" start="2025-06-09T18:58:03.861137" elapsed="0.183245"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2025-06-09T18:58:04.044382" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${response.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2025-06-09T18:58:04.044382" elapsed="0.000000"/>
+</kw>
+<kw name="To Json" owner="RequestsLibrary">
+<msg time="2025-06-09T18:58:04.044382" level="WARN">Keyword 'RequestsLibrary.To Json' is deprecated. Please use ${resp.json()} instead. Have a look at the improved HTML output as pretty printing replacement.</msg>
+<msg time="2025-06-09T18:58:04.044382" level="INFO">To JSON using : content=[
+  {
+    "cpf": "12345678901",
+    "email": "ana.santos@usp.br",
+    "id": 2,
+    "idade": 31,
+    "nome": "Ana dos Santos"
+  },
+  {
+    "cpf": "12345678901",
+    "email": "nome_teste@usp.br",
+    "id": 3,
+    "idade": 31,
+    "nome": "nome teste2"
+  },
+  {
+    "cpf": "12345678901",
+    "email": "nome_teste@usp.br",
+    "id": 4,
+    "idade": 31,
+    "nome": "nome teste"
+  },
+  {
+    "cpf": "12345678901",
+    "email": "nome_teste@usp.br",
+    "id": 5,
+    "idade": 31,
+    "nome": "nome teste1"
+  },
+  {
+    "cpf": "12345678901",
+    "email": "ana@usp.br",
+    "id": 6,
+    "idade": 30,
+    "nome": "Ana Silva"
+  }
+]
+ </msg>
+<msg time="2025-06-09T18:58:04.044382" level="INFO">To JSON using : pretty_print=False </msg>
+<msg time="2025-06-09T18:58:04.044382" level="INFO">${body} = [{'cpf': '12345678901', 'email': 'ana.santos@usp.br', 'id': 2, 'idade': 31, 'nome': 'Ana dos Santos'}, {'cpf': '12345678901', 'email': 'nome_teste@usp.br', 'id': 3, 'idade': 31, 'nome': 'nome teste2'}...</msg>
+<var>${body}</var>
+<arg>${response.content}</arg>
+<doc>*DEPRECATED* Please use ${resp.json()} instead. Have a look at the improved HTML output as pretty printing replacement.</doc>
+<status status="PASS" start="2025-06-09T18:58:04.044382" elapsed="0.000000"/>
+</kw>
+<kw name="Should Be True" owner="BuiltIn">
+<arg>isinstance(${body}, list)</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2025-06-09T18:58:04.044382" elapsed="0.000000"/>
+</kw>
+<tag>positive</tag>
+<status status="PASS" start="2025-06-09T18:58:03.851838" elapsed="0.192544"/>
+</test>
+<test id="s1-s1-t3" name="Ler Cliente Existente" line="28">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2025-06-09T18:58:04.044382" level="INFO">${payload} = {'id': '2'}</msg>
+<var>${payload}</var>
+<arg>id=2</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2025-06-09T18:58:04.044382" elapsed="0.000000"/>
+</kw>
+<kw name="GET On Session" owner="RequestsLibrary">
+<msg time="2025-06-09T18:58:04.223129" level="INFO">GET Request : url=http://192.168.68.105:5000/read/ler_cliente 
+ path_url=/read/ler_cliente 
+ headers={'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '11', 'Content-Type': 'application/json', 'Authorization': 'Basic YWRtaW46c2VuaGFfdGVzdGU='} 
+ body=b'{"id": "2"}' 
+ </msg>
+<msg time="2025-06-09T18:58:04.223129" level="INFO">GET Response : url=http://192.168.68.105:5000/read/ler_cliente 
+ status=200, reason=OK 
+ headers={'Server': 'Werkzeug/3.0.6 Python/3.8.0', 'Date': 'Mon, 09 Jun 2025 21:58:04 GMT', 'Content-Type': 'application/json', 'Content-Length': '113', 'Access-Control-Allow-Origin': '*', 'Connection': 'close'} 
+ body={
+  "cpf": "12345678901",
+  "email": "ana.santos@usp.br",
+  "id": 2,
+  "idade": 31,
+  "nome": "Ana dos Santos"
+}
+ 
+ </msg>
+<msg time="2025-06-09T18:58:04.223129" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>cliente_api</arg>
+<arg>${ENDPOINT_READ}</arg>
+<arg>json=${payload}</arg>
+<doc>Sends a GET request on a previously created HTTP Session.</doc>
+<status status="PASS" start="2025-06-09T18:58:04.044382" elapsed="0.178747"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2025-06-09T18:58:04.227071" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${response.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2025-06-09T18:58:04.227071" elapsed="0.000000"/>
+</kw>
+<kw name="To Json" owner="RequestsLibrary">
+<msg time="2025-06-09T18:58:04.227071" level="WARN">Keyword 'RequestsLibrary.To Json' is deprecated. Please use ${resp.json()} instead. Have a look at the improved HTML output as pretty printing replacement.</msg>
+<msg time="2025-06-09T18:58:04.228630" level="INFO">To JSON using : content={
+  "cpf": "12345678901",
+  "email": "ana.santos@usp.br",
+  "id": 2,
+  "idade": 31,
+  "nome": "Ana dos Santos"
+}
+ </msg>
+<msg time="2025-06-09T18:58:04.228630" level="INFO">To JSON using : pretty_print=False </msg>
+<msg time="2025-06-09T18:58:04.228630" level="INFO">${cli} = {'cpf': '12345678901', 'email': 'ana.santos@usp.br', 'id': 2, 'idade': 31, 'nome': 'Ana dos Santos'}</msg>
+<var>${cli}</var>
+<arg>${response.content}</arg>
+<doc>*DEPRECATED* Please use ${resp.json()} instead. Have a look at the improved HTML output as pretty printing replacement.</doc>
+<status status="PASS" start="2025-06-09T18:58:04.227071" elapsed="0.001559"/>
+</kw>
+<kw name="Should Contain" owner="BuiltIn">
+<arg>${response.content}</arg>
+<arg>1</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" start="2025-06-09T18:58:04.228630" elapsed="0.000742"/>
+</kw>
+<tag>positive</tag>
+<status status="PASS" start="2025-06-09T18:58:04.044382" elapsed="0.184990"/>
+</test>
+<test id="s1-s1-t4" name="Atualizar Cliente" line="36">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2025-06-09T18:58:04.230620" level="INFO">${payload} = {'id': '1', 'nome': 'Ana Souza', 'idade': '31', 'cpf': '12345678901', 'email': 'ana.souza@usp.br'}</msg>
+<var>${payload}</var>
+<arg>id=1</arg>
+<arg>nome=Ana Souza</arg>
+<arg>idade=31</arg>
+<arg>cpf=12345678901</arg>
+<arg>email=ana.souza@usp.br</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2025-06-09T18:58:04.229372" elapsed="0.001248"/>
+</kw>
+<kw name="PUT On Session" owner="RequestsLibrary">
+<msg time="2025-06-09T18:58:04.406189" level="INFO">PUT Request : url=http://192.168.68.105:5000/update/atualiza_cliente 
+ path_url=/update/atualiza_cliente 
+ headers={'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '98', 'Content-Type': 'application/json', 'Authorization': 'Basic YWRtaW46c2VuaGFfdGVzdGU='} 
+ body=b'{"id": "1", "nome": "Ana Souza", "idade": "31", "cpf": "12345678901", "email": "ana.souza@usp.br"}' 
+ </msg>
+<msg time="2025-06-09T18:58:04.406189" level="INFO">PUT Response : url=http://192.168.68.105:5000/update/atualiza_cliente 
+ status=200, reason=OK 
+ headers={'Server': 'Werkzeug/3.0.6 Python/3.8.0', 'Date': 'Mon, 09 Jun 2025 21:58:04 GMT', 'Content-Type': 'application/json', 'Content-Length': '22', 'Access-Control-Allow-Origin': '*', 'Connection': 'close'} 
+ body="Cliente atualizado!"
+ 
+ </msg>
+<msg time="2025-06-09T18:58:04.406189" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>cliente_api</arg>
+<arg>${ENDPOINT_UPDATE}</arg>
+<arg>json=${payload}</arg>
+<doc>Sends a PUT request on a previously created HTTP Session.</doc>
+<status status="PASS" start="2025-06-09T18:58:04.230620" elapsed="0.175569"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2025-06-09T18:58:04.406189" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${response.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2025-06-09T18:58:04.406189" elapsed="0.000000"/>
+</kw>
+<kw name="Should Contain" owner="BuiltIn">
+<arg>${response.content}</arg>
+<arg>Cliente atualizado!</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" start="2025-06-09T18:58:04.406189" elapsed="0.000000"/>
+</kw>
+<tag>positive</tag>
+<status status="PASS" start="2025-06-09T18:58:04.229372" elapsed="0.176817"/>
+</test>
+<test id="s1-s1-t5" name="Apagar Cliente" line="43">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2025-06-09T18:58:04.406189" level="INFO">${payload} = {'id': '1'}</msg>
+<var>${payload}</var>
+<arg>id=1</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2025-06-09T18:58:04.406189" elapsed="0.000000"/>
+</kw>
+<kw name="DELETE On Session" owner="RequestsLibrary">
+<msg time="2025-06-09T18:58:04.590082" level="INFO">DELETE Request : url=http://192.168.68.105:5000/delete/apagar_cliente 
+ path_url=/delete/apagar_cliente 
+ headers={'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '11', 'Content-Type': 'application/json', 'Authorization': 'Basic YWRtaW46c2VuaGFfdGVzdGU='} 
+ body=b'{"id": "1"}' 
+ </msg>
+<msg time="2025-06-09T18:58:04.590082" level="INFO">DELETE Response : url=http://192.168.68.105:5000/delete/apagar_cliente 
+ status=200, reason=OK 
+ headers={'Server': 'Werkzeug/3.0.6 Python/3.8.0', 'Date': 'Mon, 09 Jun 2025 21:58:04 GMT', 'Content-Type': 'application/json', 'Content-Length': '19', 'Access-Control-Allow-Origin': '*', 'Connection': 'close'} 
+ body="Cliente apagado!"
+ 
+ </msg>
+<msg time="2025-06-09T18:58:04.590082" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>cliente_api</arg>
+<arg>${ENDPOINT_REMOVE}</arg>
+<arg>json=${payload}</arg>
+<doc>Sends a DELETE request on a previously created HTTP Session.</doc>
+<status status="PASS" start="2025-06-09T18:58:04.406189" elapsed="0.183893"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2025-06-09T18:58:04.590082" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${response.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2025-06-09T18:58:04.590082" elapsed="0.000000"/>
+</kw>
+<kw name="Should Contain" owner="BuiltIn">
+<arg>${response.content}</arg>
+<arg>Cliente apagado!</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" start="2025-06-09T18:58:04.590082" elapsed="0.000000"/>
+</kw>
+<tag>positive</tag>
+<status status="PASS" start="2025-06-09T18:58:04.406189" elapsed="0.183893"/>
+</test>
+<test id="s1-s1-t6" name="Cadastrar Sem Campo Obrigatório" line="50">
+<kw name="Post Request" owner="RequestsLibrary">
+<msg time="2025-06-09T18:58:04.590082" level="WARN">Keyword 'RequestsLibrary.Post Request' is deprecated. Please use `POST On Session` instead.</msg>
+<msg time="2025-06-09T18:58:04.763355" level="INFO">POST Request : url=http://192.168.68.105:5000/create/adicionar_cliente 
+ path_url=/create/adicionar_cliente 
+ headers={'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '4', 'Content-Type': 'application/json', 'Authorization': 'Basic YWRtaW46c2VuaGFfdGVzdGU='} 
+ body=b'"{}"' 
+ </msg>
+<msg time="2025-06-09T18:58:04.771060" level="INFO">POST Response : url=http://192.168.68.105:5000/create/adicionar_cliente 
+ status=500, reason=INTERNAL SERVER ERROR 
+ headers={'Server': 'Werkzeug/3.0.6 Python/3.8.0', 'Date': 'Mon, 09 Jun 2025 21:58:04 GMT', 'Content-Type': 'text/html; charset=utf-8', 'Content-Length': '19293', 'Connection': 'close'} 
+ body=&lt;!doctype html&gt;
+&lt;html lang=en&gt;
+  &lt;head&gt;
+    &lt;title&gt;UnboundLocalError: local variable &amp;#39;cursor&amp;#39; referenced before assignment
+ // Werkzeug Debugger&lt;/title&gt;
+    &lt;link rel="stylesheet" href="?__debugger__=yes&amp;amp;cmd=resource&amp;amp;f=style.css"&gt;
+    &lt;link rel="shortcut icon"
+        href="?__debugger__=yes&amp;amp;cmd=resource&amp;amp;f=console.png"&gt;
+    &lt;script src="?__debugger__=yes&amp;amp;cmd=resource&amp;amp;f=debugger.js"&gt;&lt;/script&gt;
+    &lt;script&gt;
+      var CONSOLE_MODE = false,
+          EVALEX = false,
+          EVALEX_TRUSTED = false,
+          SECRET = "51GKHvp4ioO0aVKL5I4U";
+    &lt;/script&gt;
+  &lt;/head&gt;
+  &lt;body style="background-color: #fff"&gt;
+    &lt;div class="debugger"&gt;
+&lt;h1&gt;UnboundLocalError&lt;/h1&gt;
+&lt;div class="detail"&gt;
+  &lt;p class="errormsg"&gt;UnboundLocalError: local variable &amp;#39;cursor&amp;#39; referenced before assignment
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;h2 class="traceback"&gt;Traceback &lt;em&gt;(most recent call last)&lt;/em&gt;&lt;/h2&gt;
+&lt;div class="traceback"&gt;
+  &lt;h3&gt;&lt;/h3&gt;
+  &lt;ul&gt;&lt;li&gt;&lt;div class="frame" id="frame-2419774722896"&gt;
+  &lt;h4&gt;File &lt;cite class="filename"&gt;"C:\Users\Artur\AppData\Local\Programs\Python\Python38\lib\site-packages\flask\app.py"&lt;/cite&gt;,
+      line &lt;em class="line"&gt;1498&lt;/em&gt;,
+      in &lt;code class="function"&gt;__call__&lt;/code&gt;&lt;/h4&gt;
+  &lt;div class="source library"&gt;&lt;pre class="line before"&gt;&lt;span class="ws"&gt;    &lt;/span&gt;) -&amp;gt; cabc.Iterable[bytes]:&lt;/pre&gt;
+&lt;pre class="line before"&gt;&lt;span class="ws"&gt;        &lt;/span&gt;&amp;#34;&amp;#34;&amp;#34;The WSGI server calls the Flask application object as the&lt;/pre&gt;
+&lt;pre class="line before"&gt;&lt;span class="ws"&gt;        &lt;/span&gt;WSGI application. This calls :meth:`wsgi_app`, which can be&lt;/pre&gt;
+&lt;pre class="line before"&gt;&lt;span class="ws"&gt;        &lt;/span&gt;wrapped to apply middleware.&lt;/pre&gt;
+&lt;pre class="line before"&gt;&lt;span class="ws"&gt;        &lt;/span&gt;&amp;#34;&amp;#34;&amp;#34;&lt;/pre&gt;
+&lt;pre class="line current"&gt;&lt;span class="ws"&gt;        &lt;/span&gt;return self.wsgi_app(environ, start_response)&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;li&gt;&lt;div class="frame" id="frame-2419774722560"&gt;
+  &lt;h4&gt;File &lt;cite class="filename"&gt;"C:\Users\Artur\AppData\Local\Programs\Python\Python38\lib\site-packages\flask\app.py"&lt;/cite&gt;,
+      line &lt;em class="line"&gt;1476&lt;/em&gt;,
+      in &lt;code class="function"&gt;wsgi_app&lt;/code&gt;&lt;/h4&gt;
+  &lt;div class="source library"&gt;&lt;pre class="line before"&gt;&lt;span class="ws"&gt;            &lt;/span&gt;try:&lt;/pre&gt;
+&lt;pre class="line before"&gt;&lt;span class="ws"&gt;                &lt;/span&gt;ctx.push()&lt;/pre&gt;
+&lt;pre class="line before"&gt;&lt;span class="ws"&gt;                &lt;/span&gt;response = self.full_dispatch_request()&lt;/pre&gt;
+&lt;pre class="line before"&gt;&lt;span class="ws"&gt;            &lt;/span&gt;except Exception as e:&lt;/pre&gt;
+&lt;pre class="line before"&gt;&lt;span class="ws"&gt;                &lt;/span&gt;error = e&lt;/pre&gt;
+&lt;pre class="line current"&gt;&lt;span class="ws"&gt;                &lt;/span&gt;response = self.handle_exception(e)&lt;/pre&gt;
+&lt;pre class="line after"&gt;&lt;span class="ws"&gt;            &lt;/span&gt;except:  # noqa: B001&lt;/pre&gt;
+&lt;pre class="line after"&gt;&lt;span class="ws"&gt;                &lt;/span&gt;error = sys.exc_info()[1]&lt;/pre&gt;
+&lt;pre class="line after"&gt;&lt;span class="ws"&gt;                &lt;/span&gt;raise&lt;/pre&gt;
+&lt;pre class="line after"&gt;&lt;span class="ws"&gt;            &lt;/span&gt;return response(environ, start_response)&lt;/pre&gt;
+&lt;pre class="line after"&gt;&lt;span class="ws"&gt;        &lt;/span&gt;finally:&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;li&gt;&lt;div class="frame" id="frame-2419774723120"&gt;
+  &lt;h4&gt;File &lt;cite class="filename"&gt;"C:\Users\Artur\AppData\Local\Programs\Python\Python38\lib\site-packages\flask_cors\extension.py"&lt;/cite&gt;,
+      line &lt;em class="line"&gt;194&lt;/em&gt;,
+      in &lt;code class="function"&gt;wrapped_function&lt;/code&gt;&lt;/h4&gt;
+  &lt;div class="source library"&gt;&lt;pre class="line before"&gt;&lt;span class="ws"&gt;        &lt;/span&gt;# Wrap exception handlers with cross_origin&lt;/pre&gt;
+&lt;pre class="line before"&gt;&lt;span class="ws"&gt;        &lt;/span&gt;# These error handlers will still respect the behavior of the route&lt;/pre&gt;
+&lt;pre class="line before"&gt;&lt;span class="ws"&gt;        &lt;/span&gt;if options.get(&amp;#39;intercept_exceptions&amp;#39;, True):&lt;/pre&gt;
+&lt;pre class="line before"&gt;&lt;span class="ws"&gt;            &lt;/span&gt;def _after_request_decorator(f):&lt;/pre&gt;
+&lt;pre class="line before"&gt;&lt;span class="ws"&gt;                &lt;/span&gt;def wrapped_function(*args, **kwargs):&lt;/pre&gt;
+&lt;pre class="line current"&gt;&lt;span class="ws"&gt;                    &lt;/span&gt;return cors_after_request(app.make_response(f(*args, **kwargs)))&lt;/pre&gt;
+&lt;pre class="line after"&gt;&lt;span class="ws"&gt;                &lt;/span&gt;return wrapped_function&lt;/pre&gt;
+&lt;pre class="line after"&gt;&lt;span class="ws"&gt;&lt;/span&gt; &lt;/pre&gt;
+&lt;pre class="line after"&gt;&lt;span class="ws"&gt;            &lt;/span&gt;if hasattr(app, &amp;#39;handle_exception&amp;#39;):&lt;/pre&gt;
+&lt;pre class="line after"&gt;&lt;span class="ws"&gt;                &lt;/span&gt;app.handle_exception = _after_request_decorator(&lt;/pre&gt;
+&lt;pre class="line after"&gt;&lt;span class="ws"&gt;                    &lt;/span&gt;app.handle_exception)&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;li&gt;&lt;div class="frame" id="frame-2419774722672"&gt;
+  &lt;h4&gt;File &lt;cite class="filename"&gt;"C:\Users\Artur\AppData\Local\Programs\Python\Python38\lib\site-packages\flask\app.py"&lt;/cite&gt;,
+      line &lt;em class="line"&gt;1473&lt;/em&gt;,
+      in &lt;code class="function"&gt;wsgi_app&lt;/code&gt;&lt;/h4&gt;
+  &lt;div class="source library"&gt;&lt;pre class="line before"&gt;&lt;span class="ws"&gt;        &lt;/span&gt;ctx = self.request_context(environ)&lt;/pre&gt;
+&lt;pre class="line before"&gt;&lt;span class="ws"&gt;        &lt;/span&gt;error: BaseException | None = None&lt;/pre&gt;
+&lt;pre class="line before"&gt;&lt;span class="ws"&gt;        &lt;/span&gt;try:&lt;/pre&gt;
+&lt;pre class="line before"&gt;&lt;span class="ws"&gt;            &lt;/span&gt;try:&lt;/pre&gt;
+&lt;pre class="line before"&gt;&lt;span class="ws"&gt;                &lt;/span&gt;ctx.push()&lt;/pre&gt;
+&lt;pre class="line current"&gt;&lt;span class="ws"&gt;                &lt;/span&gt;response = self.full_dispatch_request()&lt;/pre&gt;
+&lt;pre class="line after"&gt;&lt;span class="ws"&gt;            &lt;/span&gt;except Exception as e:&lt;/pre&gt;
+&lt;pre class="line after"&gt;&lt;span class="ws"&gt;                &lt;/span&gt;error = e&lt;/pre&gt;
+&lt;pre class="line after"&gt;&lt;span class="ws"&gt;                &lt;/span&gt;response = self.handle_exception(e)&lt;/pre&gt;
+&lt;pre class="line after"&gt;&lt;span class="ws"&gt;            &lt;/span&gt;except:  # noqa: B001&lt;/pre&gt;
+&lt;pre class="line after"&gt;&lt;span class="ws"&gt;                &lt;/span&gt;error = sys.exc_info()[1]&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;li&gt;&lt;div class="frame" id="frame-2419774722784"&gt;
+  &lt;h4&gt;File &lt;cite class="filename"&gt;"C:\Users\Artur\AppData\Local\Programs\Python\Python38\lib\site-packages\flask\app.py"&lt;/cite&gt;,
+      line &lt;em class="line"&gt;882&lt;/em&gt;,
+      in &lt;code class="function"&gt;full_dispatch_request&lt;/code&gt;&lt;/h4&gt;
+  &lt;div class="source library"&gt;&lt;pre class="line before"&gt;&lt;span class="ws"&gt;            &lt;/span&gt;request_started.send(self, _async_wrapper=self.ensure_sync)&lt;/pre&gt;
+&lt;pre class="line before"&gt;&lt;span class="ws"&gt;            &lt;/span&gt;rv = self.preprocess_request()&lt;/pre&gt;
+&lt;pre class="line before"&gt;&lt;span class="ws"&gt;            &lt;/span&gt;if rv is None:&lt;/pre&gt;
+&lt;pre class="line before"&gt;&lt;span class="ws"&gt;                &lt;/span&gt;rv = self.dispatch_request()&lt;/pre&gt;
+&lt;pre class="line before"&gt;&lt;span class="ws"&gt;        &lt;/span&gt;except Exception as e:&lt;/pre&gt;
+&lt;pre class="line current"&gt;&lt;span class="ws"&gt;            &lt;/span&gt;rv = self.handle_user_exception(e)&lt;/pre&gt;
+&lt;pre class="line after"&gt;&lt;span class="ws"&gt;        &lt;/span&gt;return self.finalize_request(rv)&lt;/pre&gt;
+&lt;pre class="line after"&gt;&lt;span class="ws"&gt;&lt;/span&gt; &lt;/pre&gt;
+&lt;pre class="line after"&gt;&lt;span class="ws"&gt;    &lt;/span&gt;def finalize_request(&lt;/pre&gt;
+&lt;pre class="line after"&gt;&lt;span class="ws"&gt;        &lt;/span&gt;self,&lt;/pre&gt;
+&lt;pre class="line after"&gt;&lt;span class="ws"&gt;        &lt;/span&gt;rv: ft.ResponseReturnValue | HTTPException,&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;li&gt;&lt;div class="frame" id="frame-2419774722224"&gt;
+  &lt;h4&gt;File &lt;cite class="filename"&gt;"C:\Users\Artur\AppData\Local\Programs\Python\Python38\lib\site-packages\flask_cors\extension.py"&lt;/cite&gt;,
+      line &lt;em class="line"&gt;194&lt;/em&gt;,
+      in &lt;code class="function"&gt;wrapped_function&lt;/code&gt;&lt;/h4&gt;
+  &lt;div class="source library"&gt;&lt;pre class="line before"&gt;&lt;span class="ws"&gt;        &lt;/span&gt;# Wrap exception handlers with cross_origin&lt;/pre&gt;
+&lt;pre class="line before"&gt;&lt;span class="ws"&gt;        &lt;/span&gt;# These error handlers will still respect the behavior of the route&lt;/pre&gt;
+&lt;pre class="line before"&gt;&lt;span class="ws"&gt;        &lt;/span&gt;if options.get(&amp;#39;intercept_exceptions&amp;#39;, True):&lt;/pre&gt;
+&lt;pre class="line before"&gt;&lt;span class="ws"&gt;            &lt;/span&gt;def _after_request_decorator(f):&lt;/pre&gt;
+&lt;pre class="line before"&gt;&lt;span class="ws"&gt;                &lt;/span&gt;def wrapped_function(*args, **kwargs):&lt;/pre&gt;
+&lt;pre class="line current"&gt;&lt;span class="ws"&gt;                    &lt;/span&gt;return cors_after_request(app.make_response(f(*args, **kwargs)))&lt;/pre&gt;
+&lt;pre class="line after"&gt;&lt;span class="ws"&gt;                &lt;/span&gt;return wrapped_function&lt;/pre&gt;
+&lt;pre class="line after"&gt;&lt;span class="ws"&gt;&lt;/span&gt; &lt;/pre&gt;
+&lt;pre class="line after"&gt;&lt;span class="ws"&gt;            &lt;/span&gt;if hasattr(app, &amp;#39;handle_exception&amp;#39;):&lt;/pre&gt;
+&lt;pre class="line after"&gt;&lt;span class="ws"&gt;                &lt;/span&gt;app.handle_exception = _after_request_decorator(&lt;/pre&gt;
+&lt;pre class="line after"&gt;&lt;span class="ws"&gt;                    &lt;/span&gt;app.handle_exception)&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;li&gt;&lt;div class="frame" id="frame-2419774722112"&gt;
+  &lt;h4&gt;File &lt;cite class="filename"&gt;"C:\Users\Artur\AppData\Local\Programs\Python\Python38\lib\site-packages\flask\app.py"&lt;/cite&gt;,
+      line &lt;em class="line"&gt;880&lt;/em&gt;,
+      in &lt;code class="function"&gt;full_dispatch_request&lt;/code&gt;&lt;/h4&gt;
+  &lt;div class="source library"&gt;&lt;pre class="line before"&gt;&lt;span class="ws"&gt;&lt;/span&gt; &lt;/pre&gt;
+&lt;pre class="line before"&gt;&lt;span class="ws"&gt;        &lt;/span&gt;try:&lt;/pre&gt;
+&lt;pre class="line before"&gt;&lt;span class="ws"&gt;            &lt;/span&gt;request_started.send(self, _async_wrapper=self.ensure_sync)&lt;/pre&gt;
+&lt;pre class="line before"&gt;&lt;span class="ws"&gt;            &lt;/span&gt;rv = self.preprocess_request()&lt;/pre&gt;
+&lt;pre class="line before"&gt;&lt;span class="ws"&gt;            &lt;/span&gt;if rv is None:&lt;/pre&gt;
+&lt;pre class="line current"&gt;&lt;span class="ws"&gt;                &lt;/span&gt;rv = self.dispatch_request()&lt;/pre&gt;
+&lt;pre class="line after"&gt;&lt;span class="ws"&gt;        &lt;/span&gt;except Exception as e:&lt;/pre&gt;
+&lt;pre class="line after"&gt;&lt;span class="ws"&gt;            &lt;/span&gt;rv = self.handle_user_exception(e)&lt;/pre&gt;
+&lt;pre class="line after"&gt;&lt;span class="ws"&gt;        &lt;/span&gt;return self.finalize_request(rv)&lt;/pre&gt;
+&lt;pre class="line after"&gt;&lt;span class=... (set the log level to DEBUG or TRACE to see the full content) 
+ </msg>
+<msg time="2025-06-09T18:58:04.771060" level="INFO">${response} = &lt;Response [500]&gt;</msg>
+<var>${response}</var>
+<arg>cliente_api</arg>
+<arg>/create/adicionar_cliente</arg>
+<arg>json={}</arg>
+<doc>*DEPRECATED* Please use `POST On Session` instead.</doc>
+<status status="PASS" start="2025-06-09T18:58:04.590082" elapsed="0.180978"/>
+</kw>
+<kw name="Should Be True" owner="BuiltIn">
+<arg>${response.status_code} &gt;= 400</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2025-06-09T18:58:04.771060" elapsed="0.001463"/>
+</kw>
+<status status="PASS" start="2025-06-09T18:58:04.590082" elapsed="0.183006"/>
+</test>
+<test id="s1-s1-t7" name="Atualizar Sem Nome" line="55">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2025-06-09T18:58:04.775141" level="INFO">&amp;{payload} = { id=1 | idade=30 | cpf=12345678901 | email=test@ex.com }</msg>
+<var>&amp;{payload}</var>
+<arg>id=1</arg>
+<arg>idade=30</arg>
+<arg>cpf=12345678901</arg>
+<arg>email=test@ex.com</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2025-06-09T18:58:04.774143" elapsed="0.000998"/>
+</kw>
+<kw name="Put Request" owner="RequestsLibrary">
+<msg time="2025-06-09T18:58:04.775141" level="WARN">Keyword 'RequestsLibrary.Put Request' is deprecated. Please use `PUT On Session` instead.</msg>
+<msg time="2025-06-09T18:58:04.941087" level="INFO">PUT Request : url=http://192.168.68.105:5000/update/atualiza_cliente 
+ path_url=/update/atualiza_cliente 
+ headers={'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '72', 'Content-Type': 'application/json', 'Authorization': 'Basic YWRtaW46c2VuaGFfdGVzdGU='} 
+ body=b'{"id": "1", "idade": "30", "cpf": "12345678901", "email": "test@ex.com"}' 
+ </msg>
+<msg time="2025-06-09T18:58:04.949745" level="INFO">PUT Response : url=http://192.168.68.105:5000/update/atualiza_cliente 
+ status=500, reason=INTERNAL SERVER ERROR 
+ headers={'Server': 'Werkzeug/3.0.6 Python/3.8.0', 'Date': 'Mon, 09 Jun 2025 21:58:04 GMT', 'Content-Type': 'text/html; charset=utf-8', 'Content-Length': '19307', 'Connection': 'close'} 
+ body=&lt;!doctype html&gt;
+&lt;html lang=en&gt;
+  &lt;head&gt;
+    &lt;title&gt;UnboundLocalError: local variable &amp;#39;cursor&amp;#39; referenced before assignment
+ // Werkzeug Debugger&lt;/title&gt;
+    &lt;link rel="stylesheet" href="?__debugger__=yes&amp;amp;cmd=resource&amp;amp;f=style.css"&gt;
+    &lt;link rel="shortcut icon"
+        href="?__debugger__=yes&amp;amp;cmd=resource&amp;amp;f=console.png"&gt;
+    &lt;script src="?__debugger__=yes&amp;amp;cmd=resource&amp;amp;f=debugger.js"&gt;&lt;/script&gt;
+    &lt;script&gt;
+      var CONSOLE_MODE = false,
+          EVALEX = false,
+          EVALEX_TRUSTED = false,
+          SECRET = "51GKHvp4ioO0aVKL5I4U";
+    &lt;/script&gt;
+  &lt;/head&gt;
+  &lt;body style="background-color: #fff"&gt;
+    &lt;div class="debugger"&gt;
+&lt;h1&gt;UnboundLocalError&lt;/h1&gt;
+&lt;div class="detail"&gt;
+  &lt;p class="errormsg"&gt;UnboundLocalError: local variable &amp;#39;cursor&amp;#39; referenced before assignment
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;h2 class="traceback"&gt;Traceback &lt;em&gt;(most recent call last)&lt;/em&gt;&lt;/h2&gt;
+&lt;div class="traceback"&gt;
+  &lt;h3&gt;&lt;/h3&gt;
+  &lt;ul&gt;&lt;li&gt;&lt;div class="frame" id="frame-2419774723568"&gt;
+  &lt;h4&gt;File &lt;cite class="filename"&gt;"C:\Users\Artur\AppData\Local\Programs\Python\Python38\lib\site-packages\flask\app.py"&lt;/cite&gt;,
+      line &lt;em class="line"&gt;1498&lt;/em&gt;,
+      in &lt;code class="function"&gt;__call__&lt;/code&gt;&lt;/h4&gt;
+  &lt;div class="source library"&gt;&lt;pre class="line before"&gt;&lt;span class="ws"&gt;    &lt;/span&gt;) -&amp;gt; cabc.Iterable[bytes]:&lt;/pre&gt;
+&lt;pre class="line before"&gt;&lt;span class="ws"&gt;        &lt;/span&gt;&amp;#34;&amp;#34;&amp;#34;The WSGI server calls the Flask application object as the&lt;/pre&gt;
+&lt;pre class="line before"&gt;&lt;span class="ws"&gt;        &lt;/span&gt;WSGI application. This calls :meth:`wsgi_app`, which can be&lt;/pre&gt;
+&lt;pre class="line before"&gt;&lt;span class="ws"&gt;        &lt;/span&gt;wrapped to apply middleware.&lt;/pre&gt;
+&lt;pre class="line before"&gt;&lt;span class="ws"&gt;        &lt;/span&gt;&amp;#34;&amp;#34;&amp;#34;&lt;/pre&gt;
+&lt;pre class="line current"&gt;&lt;span class="ws"&gt;        &lt;/span&gt;return self.wsgi_app(environ, start_response)&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;li&gt;&lt;div class="frame" id="frame-2419774723680"&gt;
+  &lt;h4&gt;File &lt;cite class="filename"&gt;"C:\Users\Artur\AppData\Local\Programs\Python\Python38\lib\site-packages\flask\app.py"&lt;/cite&gt;,
+      line &lt;em class="line"&gt;1476&lt;/em&gt;,
+      in &lt;code class="function"&gt;wsgi_app&lt;/code&gt;&lt;/h4&gt;
+  &lt;div class="source library"&gt;&lt;pre class="line before"&gt;&lt;span class="ws"&gt;            &lt;/span&gt;try:&lt;/pre&gt;
+&lt;pre class="line before"&gt;&lt;span class="ws"&gt;                &lt;/span&gt;ctx.push()&lt;/pre&gt;
+&lt;pre class="line before"&gt;&lt;span class="ws"&gt;                &lt;/span&gt;response = self.full_dispatch_request()&lt;/pre&gt;
+&lt;pre class="line before"&gt;&lt;span class="ws"&gt;            &lt;/span&gt;except Exception as e:&lt;/pre&gt;
+&lt;pre class="line before"&gt;&lt;span class="ws"&gt;                &lt;/span&gt;error = e&lt;/pre&gt;
+&lt;pre class="line current"&gt;&lt;span class="ws"&gt;                &lt;/span&gt;response = self.handle_exception(e)&lt;/pre&gt;
+&lt;pre class="line after"&gt;&lt;span class="ws"&gt;            &lt;/span&gt;except:  # noqa: B001&lt;/pre&gt;
+&lt;pre class="line after"&gt;&lt;span class="ws"&gt;                &lt;/span&gt;error = sys.exc_info()[1]&lt;/pre&gt;
+&lt;pre class="line after"&gt;&lt;span class="ws"&gt;                &lt;/span&gt;raise&lt;/pre&gt;
+&lt;pre class="line after"&gt;&lt;span class="ws"&gt;            &lt;/span&gt;return response(environ, start_response)&lt;/pre&gt;
+&lt;pre class="line after"&gt;&lt;span class="ws"&gt;        &lt;/span&gt;finally:&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;li&gt;&lt;div class="frame" id="frame-2419774723792"&gt;
+  &lt;h4&gt;File &lt;cite class="filename"&gt;"C:\Users\Artur\AppData\Local\Programs\Python\Python38\lib\site-packages\flask_cors\extension.py"&lt;/cite&gt;,
+      line &lt;em class="line"&gt;194&lt;/em&gt;,
+      in &lt;code class="function"&gt;wrapped_function&lt;/code&gt;&lt;/h4&gt;
+  &lt;div class="source library"&gt;&lt;pre class="line before"&gt;&lt;span class="ws"&gt;        &lt;/span&gt;# Wrap exception handlers with cross_origin&lt;/pre&gt;
+&lt;pre class="line before"&gt;&lt;span class="ws"&gt;        &lt;/span&gt;# These error handlers will still respect the behavior of the route&lt;/pre&gt;
+&lt;pre class="line before"&gt;&lt;span class="ws"&gt;        &lt;/span&gt;if options.get(&amp;#39;intercept_exceptions&amp;#39;, True):&lt;/pre&gt;
+&lt;pre class="line before"&gt;&lt;span class="ws"&gt;            &lt;/span&gt;def _after_request_decorator(f):&lt;/pre&gt;
+&lt;pre class="line before"&gt;&lt;span class="ws"&gt;                &lt;/span&gt;def wrapped_function(*args, **kwargs):&lt;/pre&gt;
+&lt;pre class="line current"&gt;&lt;span class="ws"&gt;                    &lt;/span&gt;return cors_after_request(app.make_response(f(*args, **kwargs)))&lt;/pre&gt;
+&lt;pre class="line after"&gt;&lt;span class="ws"&gt;                &lt;/span&gt;return wrapped_function&lt;/pre&gt;
+&lt;pre class="line after"&gt;&lt;span class="ws"&gt;&lt;/span&gt; &lt;/pre&gt;
+&lt;pre class="line after"&gt;&lt;span class="ws"&gt;            &lt;/span&gt;if hasattr(app, &amp;#39;handle_exception&amp;#39;):&lt;/pre&gt;
+&lt;pre class="line after"&gt;&lt;span class="ws"&gt;                &lt;/span&gt;app.handle_exception = _after_request_decorator(&lt;/pre&gt;
+&lt;pre class="line after"&gt;&lt;span class="ws"&gt;                    &lt;/span&gt;app.handle_exception)&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;li&gt;&lt;div class="frame" id="frame-2419774723904"&gt;
+  &lt;h4&gt;File &lt;cite class="filename"&gt;"C:\Users\Artur\AppData\Local\Programs\Python\Python38\lib\site-packages\flask\app.py"&lt;/cite&gt;,
+      line &lt;em class="line"&gt;1473&lt;/em&gt;,
+      in &lt;code class="function"&gt;wsgi_app&lt;/code&gt;&lt;/h4&gt;
+  &lt;div class="source library"&gt;&lt;pre class="line before"&gt;&lt;span class="ws"&gt;        &lt;/span&gt;ctx = self.request_context(environ)&lt;/pre&gt;
+&lt;pre class="line before"&gt;&lt;span class="ws"&gt;        &lt;/span&gt;error: BaseException | None = None&lt;/pre&gt;
+&lt;pre class="line before"&gt;&lt;span class="ws"&gt;        &lt;/span&gt;try:&lt;/pre&gt;
+&lt;pre class="line before"&gt;&lt;span class="ws"&gt;            &lt;/span&gt;try:&lt;/pre&gt;
+&lt;pre class="line before"&gt;&lt;span class="ws"&gt;                &lt;/span&gt;ctx.push()&lt;/pre&gt;
+&lt;pre class="line current"&gt;&lt;span class="ws"&gt;                &lt;/span&gt;response = self.full_dispatch_request()&lt;/pre&gt;
+&lt;pre class="line after"&gt;&lt;span class="ws"&gt;            &lt;/span&gt;except Exception as e:&lt;/pre&gt;
+&lt;pre class="line after"&gt;&lt;span class="ws"&gt;                &lt;/span&gt;error = e&lt;/pre&gt;
+&lt;pre class="line after"&gt;&lt;span class="ws"&gt;                &lt;/span&gt;response = self.handle_exception(e)&lt;/pre&gt;
+&lt;pre class="line after"&gt;&lt;span class="ws"&gt;            &lt;/span&gt;except:  # noqa: B001&lt;/pre&gt;
+&lt;pre class="line after"&gt;&lt;span class="ws"&gt;                &lt;/span&gt;error = sys.exc_info()[1]&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;li&gt;&lt;div class="frame" id="frame-2419774723456"&gt;
+  &lt;h4&gt;File &lt;cite class="filename"&gt;"C:\Users\Artur\AppData\Local\Programs\Python\Python38\lib\site-packages\flask\app.py"&lt;/cite&gt;,
+      line &lt;em class="line"&gt;882&lt;/em&gt;,
+      in &lt;code class="function"&gt;full_dispatch_request&lt;/code&gt;&lt;/h4&gt;
+  &lt;div class="source library"&gt;&lt;pre class="line before"&gt;&lt;span class="ws"&gt;            &lt;/span&gt;request_started.send(self, _async_wrapper=self.ensure_sync)&lt;/pre&gt;
+&lt;pre class="line before"&gt;&lt;span class="ws"&gt;            &lt;/span&gt;rv = self.preprocess_request()&lt;/pre&gt;
+&lt;pre class="line before"&gt;&lt;span class="ws"&gt;            &lt;/span&gt;if rv is None:&lt;/pre&gt;
+&lt;pre class="line before"&gt;&lt;span class="ws"&gt;                &lt;/span&gt;rv = self.dispatch_request()&lt;/pre&gt;
+&lt;pre class="line before"&gt;&lt;span class="ws"&gt;        &lt;/span&gt;except Exception as e:&lt;/pre&gt;
+&lt;pre class="line current"&gt;&lt;span class="ws"&gt;            &lt;/span&gt;rv = self.handle_user_exception(e)&lt;/pre&gt;
+&lt;pre class="line after"&gt;&lt;span class="ws"&gt;        &lt;/span&gt;return self.finalize_request(rv)&lt;/pre&gt;
+&lt;pre class="line after"&gt;&lt;span class="ws"&gt;&lt;/span&gt; &lt;/pre&gt;
+&lt;pre class="line after"&gt;&lt;span class="ws"&gt;    &lt;/span&gt;def finalize_request(&lt;/pre&gt;
+&lt;pre class="line after"&gt;&lt;span class="ws"&gt;        &lt;/span&gt;self,&lt;/pre&gt;
+&lt;pre class="line after"&gt;&lt;span class="ws"&gt;        &lt;/span&gt;rv: ft.ResponseReturnValue | HTTPException,&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;li&gt;&lt;div class="frame" id="frame-2419774724128"&gt;
+  &lt;h4&gt;File &lt;cite class="filename"&gt;"C:\Users\Artur\AppData\Local\Programs\Python\Python38\lib\site-packages\flask_cors\extension.py"&lt;/cite&gt;,
+      line &lt;em class="line"&gt;194&lt;/em&gt;,
+      in &lt;code class="function"&gt;wrapped_function&lt;/code&gt;&lt;/h4&gt;
+  &lt;div class="source library"&gt;&lt;pre class="line before"&gt;&lt;span class="ws"&gt;        &lt;/span&gt;# Wrap exception handlers with cross_origin&lt;/pre&gt;
+&lt;pre class="line before"&gt;&lt;span class="ws"&gt;        &lt;/span&gt;# These error handlers will still respect the behavior of the route&lt;/pre&gt;
+&lt;pre class="line before"&gt;&lt;span class="ws"&gt;        &lt;/span&gt;if options.get(&amp;#39;intercept_exceptions&amp;#39;, True):&lt;/pre&gt;
+&lt;pre class="line before"&gt;&lt;span class="ws"&gt;            &lt;/span&gt;def _after_request_decorator(f):&lt;/pre&gt;
+&lt;pre class="line before"&gt;&lt;span class="ws"&gt;                &lt;/span&gt;def wrapped_function(*args, **kwargs):&lt;/pre&gt;
+&lt;pre class="line current"&gt;&lt;span class="ws"&gt;                    &lt;/span&gt;return cors_after_request(app.make_response(f(*args, **kwargs)))&lt;/pre&gt;
+&lt;pre class="line after"&gt;&lt;span class="ws"&gt;                &lt;/span&gt;return wrapped_function&lt;/pre&gt;
+&lt;pre class="line after"&gt;&lt;span class="ws"&gt;&lt;/span&gt; &lt;/pre&gt;
+&lt;pre class="line after"&gt;&lt;span class="ws"&gt;            &lt;/span&gt;if hasattr(app, &amp;#39;handle_exception&amp;#39;):&lt;/pre&gt;
+&lt;pre class="line after"&gt;&lt;span class="ws"&gt;                &lt;/span&gt;app.handle_exception = _after_request_decorator(&lt;/pre&gt;
+&lt;pre class="line after"&gt;&lt;span class="ws"&gt;                    &lt;/span&gt;app.handle_exception)&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;li&gt;&lt;div class="frame" id="frame-2419774724240"&gt;
+  &lt;h4&gt;File &lt;cite class="filename"&gt;"C:\Users\Artur\AppData\Local\Programs\Python\Python38\lib\site-packages\flask\app.py"&lt;/cite&gt;,
+      line &lt;em class="line"&gt;880&lt;/em&gt;,
+      in &lt;code class="function"&gt;full_dispatch_request&lt;/code&gt;&lt;/h4&gt;
+  &lt;div class="source library"&gt;&lt;pre class="line before"&gt;&lt;span class="ws"&gt;&lt;/span&gt; &lt;/pre&gt;
+&lt;pre class="line before"&gt;&lt;span class="ws"&gt;        &lt;/span&gt;try:&lt;/pre&gt;
+&lt;pre class="line before"&gt;&lt;span class="ws"&gt;            &lt;/span&gt;request_started.send(self, _async_wrapper=self.ensure_sync)&lt;/pre&gt;
+&lt;pre class="line before"&gt;&lt;span class="ws"&gt;            &lt;/span&gt;rv = self.preprocess_request()&lt;/pre&gt;
+&lt;pre class="line before"&gt;&lt;span class="ws"&gt;            &lt;/span&gt;if rv is None:&lt;/pre&gt;
+&lt;pre class="line current"&gt;&lt;span class="ws"&gt;                &lt;/span&gt;rv = self.dispatch_request()&lt;/pre&gt;
+&lt;pre class="line after"&gt;&lt;span class="ws"&gt;        &lt;/span&gt;except Exception as e:&lt;/pre&gt;
+&lt;pre class="line after"&gt;&lt;span class="ws"&gt;            &lt;/span&gt;rv = self.handle_user_exception(e)&lt;/pre&gt;
+&lt;pre class="line after"&gt;&lt;span class="ws"&gt;        &lt;/span&gt;return self.finalize_request(rv)&lt;/pre&gt;
+&lt;pre class="line after"&gt;&lt;span class=... (set the log level to DEBUG or TRACE to see the full content) 
+ </msg>
+<msg time="2025-06-09T18:58:04.949745" level="INFO">${response} = &lt;Response [500]&gt;</msg>
+<var>${response}</var>
+<arg>cliente_api</arg>
+<arg>/update/atualiza_cliente</arg>
+<arg>json=${payload}</arg>
+<doc>*DEPRECATED* Please use `PUT On Session` instead.</doc>
+<status status="PASS" start="2025-06-09T18:58:04.775141" elapsed="0.174604"/>
+</kw>
+<kw name="Should Be True" owner="BuiltIn">
+<arg>${response.status_code} &gt;= 400</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2025-06-09T18:58:04.949745" elapsed="0.001373"/>
+</kw>
+<status status="PASS" start="2025-06-09T18:58:04.774143" elapsed="0.177796"/>
+</test>
+<test id="s1-s1-t8" name="Apagar Cliente Inexistente" line="61">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2025-06-09T18:58:04.953375" level="INFO">${payload} = {'id': '9999'}</msg>
+<var>${payload}</var>
+<arg>id=9999</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2025-06-09T18:58:04.953375" elapsed="0.000000"/>
+</kw>
+<kw name="DELETE On Session" owner="RequestsLibrary">
+<msg time="2025-06-09T18:58:05.125447" level="INFO">DELETE Request : url=http://192.168.68.105:5000/delete/apagar_cliente 
+ path_url=/delete/apagar_cliente 
+ headers={'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '14', 'Content-Type': 'application/json', 'Authorization': 'Basic YWRtaW46c2VuaGFfdGVzdGU='} 
+ body=b'{"id": "9999"}' 
+ </msg>
+<msg time="2025-06-09T18:58:05.125447" level="INFO">DELETE Response : url=http://192.168.68.105:5000/delete/apagar_cliente 
+ status=200, reason=OK 
+ headers={'Server': 'Werkzeug/3.0.6 Python/3.8.0', 'Date': 'Mon, 09 Jun 2025 21:58:05 GMT', 'Content-Type': 'application/json', 'Content-Length': '19', 'Access-Control-Allow-Origin': '*', 'Connection': 'close'} 
+ body="Cliente apagado!"
+ 
+ </msg>
+<msg time="2025-06-09T18:58:05.125447" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>cliente_api</arg>
+<arg>${ENDPOINT_REMOVE}</arg>
+<arg>json=${payload}</arg>
+<doc>Sends a DELETE request on a previously created HTTP Session.</doc>
+<status status="PASS" start="2025-06-09T18:58:04.954493" elapsed="0.170954"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2025-06-09T18:58:05.125447" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${response.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2025-06-09T18:58:05.125447" elapsed="0.000000"/>
+</kw>
+<tag>negative</tag>
+<status status="PASS" start="2025-06-09T18:58:04.953375" elapsed="0.172072"/>
+</test>
+<status status="PASS" start="2025-06-09T18:58:03.598891" elapsed="1.526556"/>
+</suite>
+<status status="PASS" start="2025-06-09T18:58:03.582761" elapsed="1.542686"/>
+</suite>
+<statistics>
+<total>
+<stat pass="8" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+<stat pass="1" fail="0" skip="0">negative</stat>
+<stat pass="5" fail="0" skip="0">positive</stat>
+</tag>
+<suite>
+<stat name="Features" id="s1" pass="8" fail="0" skip="0">Features</stat>
+<stat name="Cliente Api Tests" id="s1-s1" pass="8" fail="0" skip="0">Features.Cliente Api Tests</stat>
+</suite>
+</statistics>
+<errors>
+<msg time="2025-06-09T18:58:04.044382" level="WARN">Keyword 'RequestsLibrary.To Json' is deprecated. Please use ${resp.json()} instead. Have a look at the improved HTML output as pretty printing replacement.</msg>
+<msg time="2025-06-09T18:58:04.227071" level="WARN">Keyword 'RequestsLibrary.To Json' is deprecated. Please use ${resp.json()} instead. Have a look at the improved HTML output as pretty printing replacement.</msg>
+<msg time="2025-06-09T18:58:04.590082" level="WARN">Keyword 'RequestsLibrary.Post Request' is deprecated. Please use `POST On Session` instead.</msg>
+<msg time="2025-06-09T18:58:04.775141" level="WARN">Keyword 'RequestsLibrary.Put Request' is deprecated. Please use `PUT On Session` instead.</msg>
+</errors>
+</robot>

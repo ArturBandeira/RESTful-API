@@ -1,47 +1,44 @@
-Feature: API de Clientes
-  Validar operações CRUD de clientes
+Feature: Gestão de clientes (Visão de Mercado)
+  Como gestor de negócios
+  Quero gerenciar o cadastro de clientes
+  Para oferecer serviços e produtos personalizados
 
   Background:
-    Given a API de Clientes está no ar em "http://127.0.0.1:5000"
+    Dado que o sistema de clientes está disponível para operação
 
-  Scenario: Criar um cliente novo
-    When eu envio um POST para "/create/adicionar_cliente" com JSON
-      """
-      {
-        "nome": "Ana Silva",
-        "idade": "30",
-        "cpf": "12345678901",
-        "email": "ana@usp.br"
-      }
-      """
-    Then a resposta deve ter status 200
-    And o corpo deve conter "Employee added successfully!"
+  # Cenários Positivos
+  Scenario: Adicionar um novo cliente válido ao portfólio
+    Given não existe cliente com CPF "12345678901"
+    When um novo cliente é registrado com nome "Ana Silva" e CPF "12345678901"
+    Then o cadastro é aceito e retorno de sucesso ocorre
 
-  Scenario: Listar clientes
-    When eu envio um GET para "/read/ler_clientes"
-    Then a resposta deve ter status 200
-    And a resposta JSON deve ser uma lista
+  Scenario: Consultar lista de clientes ativos
+    Given existem clientes cadastrados no sistema
+    When a lista de clientes é solicitada
+    Then é retornada uma lista de clientes com informações de nome e CPF
 
-  Scenario: Atualizar um cliente existente
-    Given que existe um cliente com id 1
-    When eu envio um PUT para "/update/atualiza_cliente" com JSON
-      """
-      {
-        "id": "1",
-        "nome": "Ana dos Santos",
-        "idade": "31",
-        "cpf": "12345678901",
-        "email": "ana.santos@usp.br"
-      }
-      """
-    Then a resposta deve ter status 200
-    And o corpo deve conter "Cliente atualizado!"
+  Scenario: Atualizar informações de um cliente existente
+    Given existe cliente com CPF "12345678901"
+    When suas informações de nome são alteradas para "Ana Souza"
+    Then a atualização é confirmada com sucesso
 
-  Scenario: Apagar um cliente
-    Given que existe um cliente com id 1
-    When eu envio um DELETE para "/delete/apagar_cliente" com JSON
-      """
-      { "id": "1" }
-      """
-    Then a resposta deve ter status 200
-    And o corpo deve conter "Cliente apagado!"
+  Scenario: Remover cliente do ciclo de atendimento
+    Given existe cliente com CPF "12345678901"
+    When o cliente é marcado como inativo
+    Then o cliente não aparece em listagens de ativos
+
+  # Cenários Negativos
+  Scenario: Tentar cadastrar cliente com nome já cadastrado
+    Given existe cliente com nome "Ana Silva"
+    When um novo cliente é registrado com nome "Ana Silva"
+    Then nada acontece
+
+  Scenario: Consultar cliente inexistente
+    Given não existe cliente com CPF "00000000000"
+    When é solicitada consulta para CPF "00000000000"
+    Then nada acontece
+
+  Scenario: Remover cliente inexistente
+    Given não existe cliente com CPF "00000000002"
+    When a remoção de CPF "00000000002" é solicitada
+    Then nada acontece

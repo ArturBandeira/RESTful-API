@@ -1,0 +1,472 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.3 (Python 3.8.0 on win32)" generated="2025-06-09T21:29:58.854165" rpa="false" schemaversion="5">
+<suite id="s1" name="Features" source="C:\Users\Artur\Downloads\Des\RESTful\tests\catalogo_tests\features">
+<suite id="s1-s1" name="Catalogo Api Tests" source="C:\Users\Artur\Downloads\Des\RESTful\tests\catalogo_tests\features\catalogo_api_tests.robot">
+<kw name="Create Session" owner="RequestsLibrary" type="SETUP">
+<msg time="2025-06-09T21:29:59.107684" level="INFO">Creating Session using : alias=catalogo_api, url=http://192.168.68.105:5000, headers={},                     cookies={}, auth=&lt;requests.auth.HTTPBasicAuth object at 0x000001BB24F52520&gt;, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<arg>catalogo_api</arg>
+<arg>${API_URL}</arg>
+<arg>auth=${ADMIN_CREDENTIALS}</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<status status="PASS" start="2025-06-09T21:29:59.107684" elapsed="0.000000"/>
+</kw>
+<test id="s1-s1-t1" name="Criar Relação Cliente-Produto" line="14">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2025-06-09T21:29:59.107684" level="INFO">&amp;{payload} = { id_cliente=1 | id_produto=1 }</msg>
+<var>&amp;{payload}</var>
+<arg>id_cliente=1</arg>
+<arg>id_produto=1</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2025-06-09T21:29:59.107684" elapsed="0.000000"/>
+</kw>
+<kw name="POST On Session" owner="RequestsLibrary">
+<msg time="2025-06-09T21:29:59.444027" level="INFO">POST Request : url=http://192.168.68.105:5000/create/adicionar_clientes_produtos 
+ path_url=/create/adicionar_clientes_produtos 
+ headers={'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '38', 'Content-Type': 'application/json', 'Authorization': 'Basic YWRtaW46c2VuaGFfdGVzdGU='} 
+ body=b'{"id_cliente": "1", "id_produto": "1"}' 
+ </msg>
+<msg time="2025-06-09T21:29:59.444027" level="INFO">POST Response : url=http://192.168.68.105:5000/create/adicionar_clientes_produtos 
+ status=200, reason=OK 
+ headers={'Server': 'Werkzeug/3.0.6 Python/3.8.0', 'Date': 'Tue, 10 Jun 2025 00:29:59 GMT', 'Content-Type': 'application/json', 'Content-Length': '22', 'Access-Control-Allow-Origin': '*', 'Connection': 'close'} 
+ body="Relacao adicionada!"
+ 
+ </msg>
+<msg time="2025-06-09T21:29:59.444027" level="INFO">${r} = &lt;Response [200]&gt;</msg>
+<var>${r}</var>
+<arg>catalogo_api</arg>
+<arg>${EP_ADD}</arg>
+<arg>json=${payload}</arg>
+<doc>Sends a POST request on a previously created HTTP Session.</doc>
+<status status="PASS" start="2025-06-09T21:29:59.107684" elapsed="0.336343"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2025-06-09T21:29:59.449306" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${r.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2025-06-09T21:29:59.444027" elapsed="0.005279"/>
+</kw>
+<kw name="Should Contain" owner="BuiltIn">
+<arg>${r.content}</arg>
+<arg>Relacao adicionada!</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" start="2025-06-09T21:29:59.449306" elapsed="0.002696"/>
+</kw>
+<tag>positive</tag>
+<status status="PASS" start="2025-06-09T21:29:59.107684" elapsed="0.344318"/>
+</test>
+<test id="s1-s1-t2" name="Listar Produtos do Cliente" line="21">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2025-06-09T21:29:59.452002" level="INFO">&amp;{payload} = { id=1 }</msg>
+<var>&amp;{payload}</var>
+<arg>id=1</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2025-06-09T21:29:59.452002" elapsed="0.000000"/>
+</kw>
+<kw name="GET On Session" owner="RequestsLibrary">
+<msg time="2025-06-09T21:29:59.797564" level="INFO">GET Request : url=http://192.168.68.105:5000/read/ler_produtos_do_cliente 
+ path_url=/read/ler_produtos_do_cliente 
+ headers={'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '11', 'Content-Type': 'application/json', 'Authorization': 'Basic YWRtaW46c2VuaGFfdGVzdGU='} 
+ body=b'{"id": "1"}' 
+ </msg>
+<msg time="2025-06-09T21:29:59.797564" level="INFO">GET Response : url=http://192.168.68.105:5000/read/ler_produtos_do_cliente 
+ status=200, reason=OK 
+ headers={'Server': 'Werkzeug/3.0.6 Python/3.8.0', 'Date': 'Tue, 10 Jun 2025 00:29:59 GMT', 'Content-Type': 'application/json', 'Content-Length': '3', 'Access-Control-Allow-Origin': '*', 'Connection': 'close'} 
+ body=[]
+ 
+ </msg>
+<msg time="2025-06-09T21:29:59.804210" level="INFO">${r} = &lt;Response [200]&gt;</msg>
+<var>${r}</var>
+<arg>catalogo_api</arg>
+<arg>${EP_PRODS}</arg>
+<arg>json=${payload}</arg>
+<doc>Sends a GET request on a previously created HTTP Session.</doc>
+<status status="PASS" start="2025-06-09T21:29:59.452002" elapsed="0.352208"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2025-06-09T21:29:59.804210" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${r.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2025-06-09T21:29:59.804210" elapsed="0.000000"/>
+</kw>
+<kw name="To Json" owner="RequestsLibrary">
+<msg time="2025-06-09T21:29:59.808033" level="WARN">Keyword 'RequestsLibrary.To Json' is deprecated. Please use ${resp.json()} instead. Have a look at the improved HTML output as pretty printing replacement.</msg>
+<msg time="2025-06-09T21:29:59.808033" level="INFO">To JSON using : content=[]
+ </msg>
+<msg time="2025-06-09T21:29:59.808033" level="INFO">To JSON using : pretty_print=False </msg>
+<msg time="2025-06-09T21:29:59.808033" level="INFO">${body} = []</msg>
+<var>${body}</var>
+<arg>${r.content}</arg>
+<doc>*DEPRECATED* Please use ${resp.json()} instead. Have a look at the improved HTML output as pretty printing replacement.</doc>
+<status status="PASS" start="2025-06-09T21:29:59.808033" elapsed="0.000000"/>
+</kw>
+<kw name="Should Be True" owner="BuiltIn">
+<arg>isinstance(${body}, list)</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2025-06-09T21:29:59.808033" elapsed="0.000000"/>
+</kw>
+<tag>positive</tag>
+<status status="PASS" start="2025-06-09T21:29:59.452002" elapsed="0.356031"/>
+</test>
+<test id="s1-s1-t3" name="Listar Clientes do Produto" line="29">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2025-06-09T21:29:59.813273" level="INFO">&amp;{payload} = { id=1 }</msg>
+<var>&amp;{payload}</var>
+<arg>id=1</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2025-06-09T21:29:59.813273" elapsed="0.000000"/>
+</kw>
+<kw name="GET On Session" owner="RequestsLibrary">
+<msg time="2025-06-09T21:30:00.184681" level="INFO">GET Request : url=http://192.168.68.105:5000/read/ler_clientes_do_produto 
+ path_url=/read/ler_clientes_do_produto 
+ headers={'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '11', 'Content-Type': 'application/json', 'Authorization': 'Basic YWRtaW46c2VuaGFfdGVzdGU='} 
+ body=b'{"id": "1"}' 
+ </msg>
+<msg time="2025-06-09T21:30:00.184681" level="INFO">GET Response : url=http://192.168.68.105:5000/read/ler_clientes_do_produto 
+ status=200, reason=OK 
+ headers={'Server': 'Werkzeug/3.0.6 Python/3.8.0', 'Date': 'Tue, 10 Jun 2025 00:30:00 GMT', 'Content-Type': 'application/json', 'Content-Length': '3', 'Access-Control-Allow-Origin': '*', 'Connection': 'close'} 
+ body=[]
+ 
+ </msg>
+<msg time="2025-06-09T21:30:00.184681" level="INFO">${r} = &lt;Response [200]&gt;</msg>
+<var>${r}</var>
+<arg>catalogo_api</arg>
+<arg>${EP_CLIS}</arg>
+<arg>json=${payload}</arg>
+<doc>Sends a GET request on a previously created HTTP Session.</doc>
+<status status="PASS" start="2025-06-09T21:29:59.815084" elapsed="0.369597"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2025-06-09T21:30:00.184681" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${r.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2025-06-09T21:30:00.184681" elapsed="0.000000"/>
+</kw>
+<kw name="To Json" owner="RequestsLibrary">
+<msg time="2025-06-09T21:30:00.184681" level="WARN">Keyword 'RequestsLibrary.To Json' is deprecated. Please use ${resp.json()} instead. Have a look at the improved HTML output as pretty printing replacement.</msg>
+<msg time="2025-06-09T21:30:00.184681" level="INFO">To JSON using : content=[]
+ </msg>
+<msg time="2025-06-09T21:30:00.184681" level="INFO">To JSON using : pretty_print=False </msg>
+<msg time="2025-06-09T21:30:00.184681" level="INFO">${body} = []</msg>
+<var>${body}</var>
+<arg>${r.content}</arg>
+<doc>*DEPRECATED* Please use ${resp.json()} instead. Have a look at the improved HTML output as pretty printing replacement.</doc>
+<status status="PASS" start="2025-06-09T21:30:00.184681" elapsed="0.000000"/>
+</kw>
+<kw name="Should Be True" owner="BuiltIn">
+<arg>isinstance(${body}, list)</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2025-06-09T21:30:00.184681" elapsed="0.000000"/>
+</kw>
+<tag>positive</tag>
+<status status="PASS" start="2025-06-09T21:29:59.812263" elapsed="0.384154"/>
+</test>
+<test id="s1-s1-t4" name="Atualizar Relação Existente" line="37">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2025-06-09T21:30:00.200541" level="INFO">&amp;{payload} = { id=1 | id_cliente=1 | id_produto=2 }</msg>
+<var>&amp;{payload}</var>
+<arg>id=1</arg>
+<arg>id_cliente=1</arg>
+<arg>id_produto=2</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2025-06-09T21:30:00.199435" elapsed="0.001106"/>
+</kw>
+<kw name="PUT On Session" owner="RequestsLibrary">
+<msg time="2025-06-09T21:30:00.814630" level="INFO">PUT Request : url=http://192.168.68.105:5000/update/atualizar_clientes_produtos 
+ path_url=/update/atualizar_clientes_produtos 
+ headers={'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '49', 'Content-Type': 'application/json', 'Authorization': 'Basic YWRtaW46c2VuaGFfdGVzdGU='} 
+ body=b'{"id": "1", "id_cliente": "1", "id_produto": "2"}' 
+ </msg>
+<msg time="2025-06-09T21:30:00.814630" level="INFO">PUT Response : url=http://192.168.68.105:5000/update/atualizar_clientes_produtos 
+ status=200, reason=OK 
+ headers={'Server': 'Werkzeug/3.0.6 Python/3.8.0', 'Date': 'Tue, 10 Jun 2025 00:30:00 GMT', 'Content-Type': 'application/json', 'Content-Length': '22', 'Access-Control-Allow-Origin': '*', 'Connection': 'close'} 
+ body="Relacao atualizada!"
+ 
+ </msg>
+<msg time="2025-06-09T21:30:00.830831" level="INFO">${r} = &lt;Response [200]&gt;</msg>
+<var>${r}</var>
+<arg>catalogo_api</arg>
+<arg>${EP_UPDATE}</arg>
+<arg>json=${payload}</arg>
+<doc>Sends a PUT request on a previously created HTTP Session.</doc>
+<status status="PASS" start="2025-06-09T21:30:00.203446" elapsed="0.627385"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2025-06-09T21:30:00.833444" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${r.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2025-06-09T21:30:00.832391" elapsed="0.001053"/>
+</kw>
+<kw name="Should Contain" owner="BuiltIn">
+<arg>${r.content}</arg>
+<arg>Relacao atualizada!</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" start="2025-06-09T21:30:00.833444" elapsed="0.000000"/>
+</kw>
+<tag>positive</tag>
+<status status="PASS" start="2025-06-09T21:30:00.198653" elapsed="0.634791"/>
+</test>
+<test id="s1-s1-t5" name="Remover Relação Existente" line="44">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2025-06-09T21:30:00.833444" level="INFO">&amp;{payload} = { id_cliente=1 | id_produto=1 }</msg>
+<var>&amp;{payload}</var>
+<arg>id_cliente=1</arg>
+<arg>id_produto=1</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2025-06-09T21:30:00.833444" elapsed="0.000000"/>
+</kw>
+<kw name="DELETE On Session" owner="RequestsLibrary">
+<msg time="2025-06-09T21:30:01.476822" level="INFO">DELETE Request : url=http://192.168.68.105:5000/delete/apagar_clientes_produtos 
+ path_url=/delete/apagar_clientes_produtos 
+ headers={'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '38', 'Content-Type': 'application/json', 'Authorization': 'Basic YWRtaW46c2VuaGFfdGVzdGU='} 
+ body=b'{"id_cliente": "1", "id_produto": "1"}' 
+ </msg>
+<msg time="2025-06-09T21:30:01.476822" level="INFO">DELETE Response : url=http://192.168.68.105:5000/delete/apagar_clientes_produtos 
+ status=200, reason=OK 
+ headers={'Server': 'Werkzeug/3.0.6 Python/3.8.0', 'Date': 'Tue, 10 Jun 2025 00:30:01 GMT', 'Content-Type': 'application/json', 'Content-Length': '19', 'Access-Control-Allow-Origin': '*', 'Connection': 'close'} 
+ body="Relacao apagada!"
+ 
+ </msg>
+<msg time="2025-06-09T21:30:01.476822" level="INFO">${r} = &lt;Response [200]&gt;</msg>
+<var>${r}</var>
+<arg>catalogo_api</arg>
+<arg>${EP_DELETE}</arg>
+<arg>json=${payload}</arg>
+<doc>Sends a DELETE request on a previously created HTTP Session.</doc>
+<status status="PASS" start="2025-06-09T21:30:00.833444" elapsed="0.643378"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2025-06-09T21:30:01.483736" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${r.status_code}</arg>
+<arg>200</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2025-06-09T21:30:01.476822" elapsed="0.008438"/>
+</kw>
+<kw name="Should Contain" owner="BuiltIn">
+<arg>${r.content}</arg>
+<arg>Relacao apagada!</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" start="2025-06-09T21:30:01.487297" elapsed="0.000000"/>
+</kw>
+<tag>positive</tag>
+<status status="PASS" start="2025-06-09T21:30:00.833444" elapsed="0.653853"/>
+</test>
+<test id="s1-s1-t6" name="Cadastrar Relação Duplicada" line="51">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2025-06-09T21:30:01.487297" level="INFO">&amp;{payload} = { id_cliente=1 | id_produto=1 }</msg>
+<var>&amp;{payload}</var>
+<arg>id_cliente=1</arg>
+<arg>id_produto=1</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2025-06-09T21:30:01.487297" elapsed="0.000000"/>
+</kw>
+<kw name="POST On Session" owner="RequestsLibrary">
+<msg time="2025-06-09T21:30:02.136048" level="INFO">POST Request : url=http://192.168.68.105:5000/create/adicionar_clientes_produtos 
+ path_url=/create/adicionar_clientes_produtos 
+ headers={'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '38', 'Content-Type': 'application/json', 'Authorization': 'Basic YWRtaW46c2VuaGFfdGVzdGU='} 
+ body=b'{"id_cliente": "1", "id_produto": "1"}' 
+ </msg>
+<msg time="2025-06-09T21:30:02.136048" level="INFO">POST Response : url=http://192.168.68.105:5000/create/adicionar_clientes_produtos 
+ status=200, reason=OK 
+ headers={'Server': 'Werkzeug/3.0.6 Python/3.8.0', 'Date': 'Tue, 10 Jun 2025 00:30:02 GMT', 'Content-Type': 'application/json', 'Content-Length': '22', 'Access-Control-Allow-Origin': '*', 'Connection': 'close'} 
+ body="Relacao adicionada!"
+ 
+ </msg>
+<msg time="2025-06-09T21:30:02.136048" level="INFO">${r} = &lt;Response [200]&gt;</msg>
+<var>${r}</var>
+<arg>catalogo_api</arg>
+<arg>${EP_ADD}</arg>
+<arg>json=${payload}</arg>
+<doc>Sends a POST request on a previously created HTTP Session.</doc>
+<status status="PASS" start="2025-06-09T21:30:01.487297" elapsed="0.648751"/>
+</kw>
+<kw name="Should Be True" owner="BuiltIn">
+<arg>${r.status_code} == 200</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2025-06-09T21:30:02.136048" elapsed="0.000000"/>
+</kw>
+<tag>negative</tag>
+<status status="PASS" start="2025-06-09T21:30:01.487297" elapsed="0.648751"/>
+</test>
+<test id="s1-s1-t7" name="Consultar Produtos Cliente Inexistente" line="57">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2025-06-09T21:30:02.151747" level="INFO">&amp;{payload} = { id=9999 }</msg>
+<var>&amp;{payload}</var>
+<arg>id=9999</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2025-06-09T21:30:02.151747" elapsed="0.000000"/>
+</kw>
+<kw name="GET On Session" owner="RequestsLibrary">
+<msg time="2025-06-09T21:30:02.789490" level="INFO">GET Request : url=http://192.168.68.105:5000/read/ler_produtos_do_cliente 
+ path_url=/read/ler_produtos_do_cliente 
+ headers={'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '14', 'Content-Type': 'application/json', 'Authorization': 'Basic YWRtaW46c2VuaGFfdGVzdGU='} 
+ body=b'{"id": "9999"}' 
+ </msg>
+<msg time="2025-06-09T21:30:02.789490" level="INFO">GET Response : url=http://192.168.68.105:5000/read/ler_produtos_do_cliente 
+ status=200, reason=OK 
+ headers={'Server': 'Werkzeug/3.0.6 Python/3.8.0', 'Date': 'Tue, 10 Jun 2025 00:30:02 GMT', 'Content-Type': 'application/json', 'Content-Length': '3', 'Access-Control-Allow-Origin': '*', 'Connection': 'close'} 
+ body=[]
+ 
+ </msg>
+<msg time="2025-06-09T21:30:02.789490" level="INFO">${r} = &lt;Response [200]&gt;</msg>
+<var>${r}</var>
+<arg>catalogo_api</arg>
+<arg>${EP_PRODS}</arg>
+<arg>json=${payload}</arg>
+<doc>Sends a GET request on a previously created HTTP Session.</doc>
+<status status="PASS" start="2025-06-09T21:30:02.153644" elapsed="0.635846"/>
+</kw>
+<kw name="Should Be True" owner="BuiltIn">
+<arg>${r.status_code} == 200</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2025-06-09T21:30:02.789490" elapsed="0.013739"/>
+</kw>
+<tag>negative</tag>
+<status status="PASS" start="2025-06-09T21:30:02.136048" elapsed="0.669196"/>
+</test>
+<test id="s1-s1-t8" name="Consultar Clientes Produto Inexistente" line="63">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2025-06-09T21:30:02.805244" level="INFO">&amp;{payload} = { id=9999 }</msg>
+<var>&amp;{payload}</var>
+<arg>id=9999</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2025-06-09T21:30:02.805244" elapsed="0.000000"/>
+</kw>
+<kw name="GET On Session" owner="RequestsLibrary">
+<msg time="2025-06-09T21:30:03.490360" level="INFO">GET Request : url=http://192.168.68.105:5000/read/ler_clientes_do_produto 
+ path_url=/read/ler_clientes_do_produto 
+ headers={'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '14', 'Content-Type': 'application/json', 'Authorization': 'Basic YWRtaW46c2VuaGFfdGVzdGU='} 
+ body=b'{"id": "9999"}' 
+ </msg>
+<msg time="2025-06-09T21:30:03.490360" level="INFO">GET Response : url=http://192.168.68.105:5000/read/ler_clientes_do_produto 
+ status=200, reason=OK 
+ headers={'Server': 'Werkzeug/3.0.6 Python/3.8.0', 'Date': 'Tue, 10 Jun 2025 00:30:03 GMT', 'Content-Type': 'application/json', 'Content-Length': '3', 'Access-Control-Allow-Origin': '*', 'Connection': 'close'} 
+ body=[]
+ 
+ </msg>
+<msg time="2025-06-09T21:30:03.490360" level="INFO">${r} = &lt;Response [200]&gt;</msg>
+<var>${r}</var>
+<arg>catalogo_api</arg>
+<arg>${EP_CLIS}</arg>
+<arg>json=${payload}</arg>
+<doc>Sends a GET request on a previously created HTTP Session.</doc>
+<status status="PASS" start="2025-06-09T21:30:02.805244" elapsed="0.685116"/>
+</kw>
+<kw name="Should Be True" owner="BuiltIn">
+<arg>${r.status_code} == 200</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2025-06-09T21:30:03.490360" elapsed="0.013047"/>
+</kw>
+<tag>negative</tag>
+<status status="PASS" start="2025-06-09T21:30:02.805244" elapsed="0.701123"/>
+</test>
+<test id="s1-s1-t9" name="Atualizar Relação Inexistente" line="69">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2025-06-09T21:30:03.513591" level="INFO">&amp;{payload} = { id=9999 | id_cliente=1 | id_produto=1 }</msg>
+<var>&amp;{payload}</var>
+<arg>id=9999</arg>
+<arg>id_cliente=1</arg>
+<arg>id_produto=1</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2025-06-09T21:30:03.509495" elapsed="0.004096"/>
+</kw>
+<kw name="PUT On Session" owner="RequestsLibrary">
+<msg time="2025-06-09T21:30:04.178066" level="INFO">PUT Request : url=http://192.168.68.105:5000/update/atualizar_clientes_produtos 
+ path_url=/update/atualizar_clientes_produtos 
+ headers={'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '52', 'Content-Type': 'application/json', 'Authorization': 'Basic YWRtaW46c2VuaGFfdGVzdGU='} 
+ body=b'{"id": "9999", "id_cliente": "1", "id_produto": "1"}' 
+ </msg>
+<msg time="2025-06-09T21:30:04.178066" level="INFO">PUT Response : url=http://192.168.68.105:5000/update/atualizar_clientes_produtos 
+ status=200, reason=OK 
+ headers={'Server': 'Werkzeug/3.0.6 Python/3.8.0', 'Date': 'Tue, 10 Jun 2025 00:30:04 GMT', 'Content-Type': 'application/json', 'Content-Length': '22', 'Access-Control-Allow-Origin': '*', 'Connection': 'close'} 
+ body="Relacao atualizada!"
+ 
+ </msg>
+<msg time="2025-06-09T21:30:04.190576" level="INFO">${r} = &lt;Response [200]&gt;</msg>
+<var>${r}</var>
+<arg>catalogo_api</arg>
+<arg>${EP_UPDATE}</arg>
+<arg>json=${payload}</arg>
+<doc>Sends a PUT request on a previously created HTTP Session.</doc>
+<status status="PASS" start="2025-06-09T21:30:03.513591" elapsed="0.676985"/>
+</kw>
+<kw name="Should Be True" owner="BuiltIn">
+<arg>${r.status_code} == 200</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2025-06-09T21:30:04.191652" elapsed="0.002344"/>
+</kw>
+<tag>negative</tag>
+<status status="PASS" start="2025-06-09T21:30:03.509495" elapsed="0.684501"/>
+</test>
+<test id="s1-s1-t10" name="Remover Relação Inexistente" line="75">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2025-06-09T21:30:04.193996" level="INFO">&amp;{payload} = { id_cliente=9999 | id_produto=9999 }</msg>
+<var>&amp;{payload}</var>
+<arg>id_cliente=9999</arg>
+<arg>id_produto=9999</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2025-06-09T21:30:04.193996" elapsed="0.000000"/>
+</kw>
+<kw name="DELETE On Session" owner="RequestsLibrary">
+<msg time="2025-06-09T21:30:04.868652" level="INFO">DELETE Request : url=http://192.168.68.105:5000/delete/apagar_clientes_produtos 
+ path_url=/delete/apagar_clientes_produtos 
+ headers={'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '44', 'Content-Type': 'application/json', 'Authorization': 'Basic YWRtaW46c2VuaGFfdGVzdGU='} 
+ body=b'{"id_cliente": "9999", "id_produto": "9999"}' 
+ </msg>
+<msg time="2025-06-09T21:30:04.868652" level="INFO">DELETE Response : url=http://192.168.68.105:5000/delete/apagar_clientes_produtos 
+ status=200, reason=OK 
+ headers={'Server': 'Werkzeug/3.0.6 Python/3.8.0', 'Date': 'Tue, 10 Jun 2025 00:30:04 GMT', 'Content-Type': 'application/json', 'Content-Length': '19', 'Access-Control-Allow-Origin': '*', 'Connection': 'close'} 
+ body="Relacao apagada!"
+ 
+ </msg>
+<msg time="2025-06-09T21:30:04.868652" level="INFO">${r} = &lt;Response [200]&gt;</msg>
+<var>${r}</var>
+<arg>catalogo_api</arg>
+<arg>${EP_DELETE}</arg>
+<arg>json=${payload}</arg>
+<doc>Sends a DELETE request on a previously created HTTP Session.</doc>
+<status status="PASS" start="2025-06-09T21:30:04.193996" elapsed="0.674656"/>
+</kw>
+<kw name="Should Be True" owner="BuiltIn">
+<arg>${r.status_code} == 200</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2025-06-09T21:30:04.870666" elapsed="0.000000"/>
+</kw>
+<tag>negative</tag>
+<status status="PASS" start="2025-06-09T21:30:04.193996" elapsed="0.676670"/>
+</test>
+<status status="PASS" start="2025-06-09T21:29:58.901469" elapsed="5.969197"/>
+</suite>
+<status status="PASS" start="2025-06-09T21:29:58.863549" elapsed="6.007117"/>
+</suite>
+<statistics>
+<total>
+<stat pass="10" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+<stat pass="5" fail="0" skip="0">negative</stat>
+<stat pass="5" fail="0" skip="0">positive</stat>
+</tag>
+<suite>
+<stat name="Features" id="s1" pass="10" fail="0" skip="0">Features</stat>
+<stat name="Catalogo Api Tests" id="s1-s1" pass="10" fail="0" skip="0">Features.Catalogo Api Tests</stat>
+</suite>
+</statistics>
+<errors>
+<msg time="2025-06-09T21:29:59.808033" level="WARN">Keyword 'RequestsLibrary.To Json' is deprecated. Please use ${resp.json()} instead. Have a look at the improved HTML output as pretty printing replacement.</msg>
+<msg time="2025-06-09T21:30:00.184681" level="WARN">Keyword 'RequestsLibrary.To Json' is deprecated. Please use ${resp.json()} instead. Have a look at the improved HTML output as pretty printing replacement.</msg>
+</errors>
+</robot>
