@@ -49,5 +49,5 @@ Testes desenvolvidos sob uma visão de mercado, descritos em Gherkin e implement
 
 ---
 
-## Automatização de requests
+## Automação do envio de requests
 O código request_sender.c deve ser compilado e executado em ambiente Linux. Este envia, a cada 5 minutos, uma request GET para a API de clientes.
