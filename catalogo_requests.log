@@ -1,0 +1,20 @@
+2025-06-18 18:33:19,092 - DEBUG - Request Headers: Content-Type: application/json
+Authorization: Basic YWRtaW46c2VuaGFfdGVzdGU=
+User-Agent: PostmanRuntime/7.44.0
+Accept: */*
+Postman-Token: ff33be9b-9bd9-46b4-b377-93ea3796d1f4
+Host: 127.0.0.1:5000
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 55
+
+
+2025-06-18 18:33:19,093 - DEBUG - Request Body: {
+    "id_cliente" : "15",
+    "id_produto" : "10"
+}
+2025-06-18 18:33:19,342 - DEBUG - Response Status Code: 200
+2025-06-18 18:33:19,343 - DEBUG - Response Headers: Content-Type: application/json
+Content-Length: 22
+
+

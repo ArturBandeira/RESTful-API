@@ -1,0 +1,22 @@
+2025-06-18 18:37:42,095 - DEBUG - Request Headers: Content-Type: application/json
+Authorization: Basic YWRtaW46c2VuaGFfdGVzdGU=
+User-Agent: PostmanRuntime/7.44.0
+Accept: */*
+Postman-Token: 04410356-fc0f-4a60-a702-81dbb417f62c
+Host: 127.0.0.1:5000
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 107
+
+
+2025-06-18 18:37:42,099 - DEBUG - Request Body: {
+    "nome" : "product",
+    "velocidade" : "100",
+    "preco" : "300",
+    "disponibilidade" : "1"
+}
+2025-06-18 18:37:42,392 - DEBUG - Response Status Code: 200
+2025-06-18 18:37:42,393 - DEBUG - Response Headers: Content-Type: application/json
+Content-Length: 22
+
+

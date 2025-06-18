@@ -120,6 +120,19 @@ def apagar_produto():
         cursor.close()
         conn.close()
 
+@app.before_request
+def log_request_info():
+    app.logger.debug(f"Request Headers: {request.headers}")
+    if request.method in ['POST', 'PUT']:
+        app.logger.debug(f"Request Body: {request.get_data(as_text=True)}")
+
+@app.after_request
+def log_response_info(response):
+    app.logger.debug(f"Response Status Code: {response.status_code}")
+    app.logger.debug(f"Response Headers: {response.headers}")
+    return response
+
+
 @app.errorhandler(404)
 def showMessage(error=None):
     message = {

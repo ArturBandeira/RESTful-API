@@ -1,0 +1,44 @@
+2025-06-18 18:25:29,327 - DEBUG - Request Headers: Content-Type: application/json
+Authorization: Basic YWRtaW46c2VuaGFfdGVzdGU=
+User-Agent: PostmanRuntime/7.44.0
+Accept: */*
+Postman-Token: bf24be33-2766-4125-9bd0-0f223613639b
+Host: 127.0.0.1:5000
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 113
+
+
+2025-06-18 18:25:29,328 - DEBUG - Request Body: {
+    "nome": "nome teste2",
+    "idade": "31",
+    "cpf": "12345678901",
+    "email": "nome_teste@usp.br"
+}
+2025-06-18 18:25:29,646 - DEBUG - Response Status Code: 200
+2025-06-18 18:25:29,648 - DEBUG - Response Headers: Content-Type: application/json
+Content-Length: 22
+
+
+2025-06-18 18:26:37,519 - DEBUG - Request Headers: Content-Type: application/json
+Authorization: Basic YWRtaW46c2VuaGFfdGVzdGU=
+User-Agent: PostmanRuntime/7.44.0
+Accept: */*
+Postman-Token: dbe54351-33e3-4c7d-8436-df3aaf212d9e
+Host: 127.0.0.1:5000
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 113
+
+
+2025-06-18 18:26:37,519 - DEBUG - Request Body: {
+    "nome": "nome teste3",
+    "idade": "31",
+    "cpf": "12345678901",
+    "email": "nome_teste@usp.br"
+}
+2025-06-18 18:26:37,712 - DEBUG - Response Status Code: 200
+2025-06-18 18:26:37,712 - DEBUG - Response Headers: Content-Type: application/json
+Content-Length: 22
+
+
