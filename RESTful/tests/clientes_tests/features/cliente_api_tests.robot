@@ -48,12 +48,10 @@ Apagar Cliente
     Should Contain    ${response.content}    Cliente apagado!
 
 Cadastrar Sem Campo Obrigatório
-    # antes: Status Should Be    404    ${response.status_code}
     ${response}=    Post Request    cliente_api    /create/adicionar_cliente    json={}
     Should Be True    ${response.status_code} >= 400
 
 Atualizar Sem Nome
-    # antes: Status Should Be    404    ${response.status_code}
     &{payload}=    Create Dictionary    id=1    idade=30    cpf=12345678901    email=test@ex.com
     ${response}=    Put Request    cliente_api    /update/atualiza_cliente    json=${payload}
     Should Be True    ${response.status_code} >= 400
