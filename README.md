@@ -36,13 +36,7 @@ Todas as operações são protegidas por autenticação básica HTTP (usuário `
 - Python ≥ 3.8  
 - MySQL / MariaDB (com os bancos `db_clientes`, `db_produtos` e `db_catalogo` e suas *stored procedures*)  
 - Virtualenv (recomendado)  
-- Instale as dependências:
 
-  ```bash
-
-   pip install -r requirements.txt
-
----
 
 ## Cobertura dos testes
 Testes desenvolvidos sob uma visão de mercado, descritos em Gherkin e implementados com Behave e Robot.
