@@ -4,6 +4,10 @@ from config import mysql
 from flask import jsonify, request
 from auth import auth
 
+@app.route("/", methods=["GET"])
+def health_check():
+    return "OK", 200
+
 @app.route('/create/adicionar_cliente', methods=['POST'])
 @auth.login_required
 def adicionar_cliente():
