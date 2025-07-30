@@ -1,0 +1,117 @@
+trigger:
+- main
+
+variables:
+  # Application Configuration
+  imageRepository: 'artur123231/flask-app'
+  containerRegistry: 'docker.io'
+  tag: '$(Build.BuildId)'
+  
+  # Kubernetes Configuration
+  namespace: 'flask-app'
+  k8sManifestsPath: 'k8s-manifests'
+
+# AWS credentials handled by Service Connection
+
+stages:
+- stage: Build
+  displayName: 'Build and Test'
+  jobs:
+  - job: BuildAndTest
+    displayName: 'Build and Test Application'
+    pool:
+      vmImage: ubuntu-latest
+    
+    steps:
+    # 1. Checkout do código
+    - checkout: self
+      displayName: 'Checkout Code'
+    
+    # 2. Lint
+    - task: UsePythonVersion@0
+      displayName: 'Use Python 3.9'
+      inputs:
+        versionSpec: '3.9'
+        addToPath: true
+    
+    - script: |
+        python -m pip install --upgrade pip
+        pip install pylint
+      displayName: 'Install Lint Dependencies'
+    
+    - script: |
+        pylint app/ || true
+        pylint tests/ || true
+      displayName: 'Run Linting'
+      continueOnError: true
+    
+    # 3. Construir a imagem da aplicação
+    - task: Docker@2
+      displayName: 'Build Docker Image'
+      inputs:
+        containerRegistry: 'Docker Hub Connection'
+        repository: $(imageRepository)
+        command: 'buildAndPush'
+        dockerfile: '**/Dockerfile'
+        tags: |
+          $(tag)
+          latest
+        arguments: '--no-cache'
+
+- stage: Deploy
+  displayName: 'Deploy to Kubernetes'
+  dependsOn: Build
+  condition: succeeded()
+  jobs:
+  - deployment: DeployToK8s
+    displayName: 'Deploy to Kubernetes'
+    environment: 'production'
+    pool:
+      vmImage: ubuntu-latest
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          # 4. Instalar sua aplicação no Kubernetes
+          - task: AWSCLI@1
+            displayName: 'Configure AWS CLI'
+            inputs:
+              awsCredentials: 'AWS Service Connection'
+              regionName: 'us-east-2'
+              awsCLIVersion: 'latest'
+          
+          - task: KubectlInstaller@0
+            displayName: 'Install kubectl'
+            inputs:
+              kubectlVersion: 'latest'
+          
+          - script: |
+              echo "Using AWS Service Connection for authentication"
+            displayName: 'AWS Authentication Info'
+          
+          - script: |
+              aws eks update-kubeconfig --name your-eks-cluster-name --region us-east-2
+            displayName: 'Configure kubectl for EKS'
+          
+          - script: |
+              kubectl get nodes
+            displayName: 'Verify EKS Connection'
+          
+          - task: KubernetesManifest@0
+            displayName: 'Deploy to Kubernetes'
+            inputs:
+              action: 'deploy'
+              kubernetesServiceConnection: 'EKS Service Connection'
+              namespace: $(namespace)
+              manifests: 'deploy-without-alb-controller.yaml'
+              containers: $(containerRegistry)/$(imageRepository):$(tag)
+          
+          - script: |
+              kubectl rollout status deployment/flask-app -n $(namespace) --timeout=300s
+            displayName: 'Wait for Deployment'
+          
+          - script: |
+              kubectl get pods -n $(namespace)
+              kubectl get services -n $(namespace)
+              kubectl get ingress -n $(namespace)
+            displayName: 'Verify Deployment' 
