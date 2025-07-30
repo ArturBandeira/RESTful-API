@@ -1,0 +1,29 @@
+# Configuração do Robot Framework para testes da API
+robot:
+  # Configurações gerais
+  name: "Testes da API de Clientes"
+  version: "1.0.0"
+  
+  # Configurações de execução
+  output_dir: "./results"
+  log_level: INFO
+  console_colors: ON
+  
+  # Configurações de timeout
+  timeout: 30s
+  
+  # Configurações de tags
+  include_tags:
+    - smoke
+    - api
+    - clientes
+  
+  # Configurações de relatórios
+  report:
+    title: "Relatório de Testes - API de Clientes"
+    name: "test_report.html"
+  
+  # Configurações de logs
+  log:
+    name: "test_log.html"
+    level: INFO 
